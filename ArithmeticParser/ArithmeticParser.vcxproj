@@ -138,15 +138,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LexicalParser.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="SyntacticParser.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Parser.h" />
+    <ClInclude Include="BuiltinFunction.h" />
+    <ClInclude Include="LexicalParser.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="OperatorType.h" />
+    <ClInclude Include="SyntacticParser.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="TokenType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
