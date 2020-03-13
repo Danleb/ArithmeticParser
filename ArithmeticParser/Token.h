@@ -1,5 +1,8 @@
+#pragma once
 #ifndef TOKEN_H
 #define TOKEN_H
+
+#include<string>
 
 #include"TokenType.h"
 #include"OperatorType.h"
@@ -11,15 +14,38 @@ namespace ArithmeticParser
 	public:
 		TokenType tokenType;
 		OperatorType operatorType;
-		double Number;
+		double number;
+		std::string variableName;
 
-		Token(TokenType tokenType, OperatorType operatorType) :
-			tokenType(tokenType),
-			operatorType(operatorType)
+		Token(Token const&) = default;
+		Token& operator=(Token const&) = default;
+
+		Token(OperatorType operatorType) :
+			tokenType(TokenType::Operator),
+			operatorType(operatorType),
+			number(0),
+			variableName("")
 		{
 
 		}
 
+		Token(double number) :
+			tokenType(TokenType::Number),
+			operatorType(OperatorType::None),
+			number(number),
+			variableName("")
+		{
+
+		}
+
+		Token(std::string variableName) :
+			tokenType(TokenType::Variable),
+			operatorType(OperatorType::None),
+			number(0),
+			variableName(variableName)
+		{
+
+		}
 	};
 }
 

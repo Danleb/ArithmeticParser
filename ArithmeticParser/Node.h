@@ -1,3 +1,4 @@
+#pragma once
 #ifndef NODE_H
 #define NODE_H
 
@@ -7,8 +8,16 @@ namespace ArithmeticParser
 {
 	class Node
 	{
+	private:
+		Node* leftChild;
+		Node* rightChild;
+		Token* token;
+	
 	public:
-		Token token;
+		Node* GetLeftChild() const noexcept;
+		Node* GetRightChild() const noexcept;
+		Token* GetToken() const noexcept;
+
 		double Calculate();
 	};
 }

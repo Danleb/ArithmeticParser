@@ -1,10 +1,12 @@
+#pragma once
 #ifndef BUILTIN_FUNCTION_H
 #define BUILTIN_FUNCTION_H
 
 namespace ArithmeticParser
 {
-	enum BuiltinFunction
+	enum class BuiltinFunction
 	{
+		None = 0,
 		Sinus,
 		Cosine,
 		Tangent,

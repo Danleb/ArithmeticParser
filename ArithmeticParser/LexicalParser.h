@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LEXICAL_PARSER_H
 #define LEXICAL_PARSER_H
 
@@ -8,7 +9,7 @@
 
 namespace ArithmeticParser
 {
-	std::vector<Token> GetTokens(std::string);
+	std::vector<Token> GetTokens(std::string s);
 }
 
 #endif // !LEXICAL_PARSER_H

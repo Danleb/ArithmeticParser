@@ -1,87 +1,116 @@
 #include<vector>
 #include<exception>
+#include<ctype.h>
 
+#include"Token.h"
 #include"LexicalParser.h"
+#include"Utils.h"
 
 namespace ArithmeticParser
 {
-	Token TryToParseNumber(std::string s, int index)
+	bool TryToParseOperator(const std::string s, const size_t index, size_t& shiftedIndex, Token* token)
+	{
+		char c = s[index];
+
+		switch (c)
+		{
+		case '+':
+		{
+			*token = Token(OperatorType::Addition);
+			break;
+		}
+		case '-':
+		{
+			*token = Token(OperatorType::Subtraction);
+			break;
+		}
+		case '*':
+		{
+			*token = Token(OperatorType::Multiplication);
+			break;
+		}
+		case '/':
+		{
+			*token = Token(OperatorType::Division);
+			break;
+		}
+		default: return false;
+		}
+
+		shiftedIndex = index + 1;
+
+		return true;
+	}
+
+	bool TryToParseParentheses(const std::string s, const size_t index, size_t& shiftedIndex, Token& token)
+	{
+		return false;
+	}
+
+	bool TryToParseNumber(const std::string s, const size_t index, size_t& shiftedIndex, Token& token)
 	{
 		std::string numberString;
 
 		bool delimiterWas = false;
 
-		while (true)
+		for (size_t i = index; i < s.size(); i++)
 		{
-			switch (s[index])
-			{
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-				numberString += s[index];
-				break;
+			char c = s[i];
 
-			case '.':
-			case ',':
+			if (isdigit(c))
+			{
+				numberString += c;
+				continue;
+			}
+			else if (c == '.' || c == ',')
+			{
 				if (delimiterWas)
 				{
 					throw new std::exception("Delimiter in number already was.");
 				}
 
 				delimiterWas = true;
-				numberString += s[index];
-
-				break;
-
-			default:
-				Token
-				
-				break;
+				numberString += c;
 			}
+			else
+				break;
 		}
+
+		if (numberString.size() == 1 && delimiterWas)
+		{
+			throw new std::exception("Number cannot consist of only decimal delimiter.");
+		}
+
+		double value = std::stod(numberString);
+		token = Token(value);
+
+		return true;
 	}
 
 	std::vector<Token> GetTokens(std::string s)
 	{
+		const char charactersToRemove[] = " ";
+		RemoveCharactersFromString(s, charactersToRemove);
+
 		std::vector<Token> tokens;
+
+		bool wasNumber = false;
 
 		for (size_t i = 0; i < s.size(); i++)
 		{
-			switch (s[i])
+			Token* token = nullptr;
+
+			if (TryToParseOperator(s, i, i, token))
 			{
-			case '+':
-				Token t(TokenType::Operator, OperatorType::Addition);
-				tokens.push_back(t);
-				break;
-			case '-':
-				Token t(TokenType::Operator, OperatorType::Subtraction);
-				tokens.push_back(t);
-				break;
-			case '*':
-				Token t(TokenType::Operator, OperatorType::Multiplication);
-				tokens.push_back(t);
-				break;
-			case '/':
-				Token t(TokenType::Operator, OperatorType::Division);
-				tokens.push_back(t);
-				break;
-
-			default:
-				if (true)
-				{
-					throw new std::exception("Not recognized symbol " + s[i]);
-				}
-
-				auto token = TryToParseNumber(s, i);
-				tokens.push_back(token);
-				break;
+				tokens.push_back(*token);
+			}
+			else if (TryToParseNumber(s, i, i, token))
+			{
+				tokens.push_back(*token);
+			}
+			else
+			{
+				throw new std::exception("Not recognized symbol " + s[i]);
 			}
 		}
 
