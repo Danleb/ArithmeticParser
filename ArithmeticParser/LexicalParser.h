@@ -9,7 +9,7 @@
 
 namespace ArithmeticParser
 {
-	std::vector<Token> GetTokens(std::string s);
+	std::vector<Token> GetTokens(std::string);
 }
 
 #endif // !LEXICAL_PARSER_H

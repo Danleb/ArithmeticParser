@@ -64,5 +64,22 @@
     <ClInclude Include="ParenthesisType.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="ErrorCode.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Help.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ErrorCodeDescription.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -167,13 +167,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BuiltinFunction.h" />
+    <ClInclude Include="ErrorCode.h" />
     <ClInclude Include="LexicalParser.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="OperatorType.h" />
     <ClInclude Include="ParenthesisType.h" />
     <ClInclude Include="SyntacticParser.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenType.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ErrorCodeDescription.txt" />
+    <Text Include="Help.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

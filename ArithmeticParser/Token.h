@@ -17,6 +17,7 @@ namespace ArithmeticParser
 		double number;
 		std::string variableName;
 
+		Token() = default;
 		Token(Token const&) = default;
 		Token& operator=(Token const&) = default;
 

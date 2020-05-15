@@ -8,7 +8,7 @@
 
 namespace ArithmeticParser
 {
-	bool TryToParseOperator(const std::string s, const size_t index, size_t& shiftedIndex, Token* token)
+	bool TryToParseOperator(const std::string s, const size_t index, size_t& shiftedIndex, Token& token)
 	{
 		char c = s[index];
 
@@ -16,22 +16,22 @@ namespace ArithmeticParser
 		{
 		case '+':
 		{
-			*token = Token(OperatorType::Addition);
+			token = Token(OperatorType::Addition);
 			break;
 		}
 		case '-':
 		{
-			*token = Token(OperatorType::Subtraction);
+			token = Token(OperatorType::Subtraction);
 			break;
 		}
 		case '*':
 		{
-			*token = Token(OperatorType::Multiplication);
+			token = Token(OperatorType::Multiplication);
 			break;
 		}
 		case '/':
 		{
-			*token = Token(OperatorType::Division);
+			token = Token(OperatorType::Division);
 			break;
 		}
 		default: return false;
@@ -83,6 +83,7 @@ namespace ArithmeticParser
 
 		double value = std::stod(numberString);
 		token = Token(value);
+		shiftedIndex = index + numberString.size();
 
 		return true;
 	}
@@ -96,21 +97,21 @@ namespace ArithmeticParser
 
 		bool wasNumber = false;
 
-		for (size_t i = 0; i < s.size(); i++)
+		for (size_t i = 0; i < s.size();)
 		{
-			Token* token = nullptr;
+			Token token;
 
-			if (TryToParseOperator(s, i, i, token))
+			bool parsedSuccessfully =
+				TryToParseOperator(s, i, i, token) ||
+				TryToParseNumber(s, i, i, token);
+
+			if (parsedSuccessfully)
 			{
-				tokens.push_back(*token);
-			}
-			else if (TryToParseNumber(s, i, i, token))
-			{
-				tokens.push_back(*token);
+				tokens.push_back(token);
 			}
 			else
 			{
-				throw new std::exception("Not recognized symbol " + s[i]);
+				throw new std::exception("Not recognized expression starting from symbol " + s[i]);
 			}
 		}
 

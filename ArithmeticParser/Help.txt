@@ -1,0 +1,7 @@
+Welcome to the Arithmetic Parser v0.0.1 !
+
+You can enter mathematical expressions and get them computed.
+For example:
+1+1
+2*6+3
+2(3+5)

@@ -1,0 +1,4 @@
+-1 There is no description provided for the error
+0 Undefined error
+1 Lexical error
+2 Syntactical error
