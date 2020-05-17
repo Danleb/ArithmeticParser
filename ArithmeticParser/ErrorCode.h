@@ -2,7 +2,7 @@
 #ifndef ERROR_CODE_H
 #define ERROR_CODE_H
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	enum class ErrorCode
 	{

@@ -1,16 +1,16 @@
-#include<vector>
-#include<exception>
-#include<ctype.h>
+#include <vector>
+#include <exception>
+#include <cctype>
 
-#include"Token.h"
-#include"LexicalParser.h"
-#include"Utils.h"
+#include "Token.h"
+#include "LexicalParser.h"
+#include "Utils.h"
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	bool TryToParseOperator(const std::string s, const size_t index, size_t& shiftedIndex, Token& token)
 	{
-		char c = s[index];
+		const char c = s[index];
 
 		switch (c)
 		{
@@ -66,7 +66,7 @@ namespace ArithmeticParser
 			{
 				if (delimiterWas)
 				{
-					throw new std::exception("Delimiter in number already was.");
+					throw std::exception("Delimiter in number already was.");
 				}
 
 				delimiterWas = true;
@@ -78,7 +78,7 @@ namespace ArithmeticParser
 
 		if (numberString.size() == 1 && delimiterWas)
 		{
-			throw new std::exception("Number cannot consist of only decimal delimiter.");
+			throw std::exception("Number cannot consist of only decimal delimiter.");
 		}
 
 		double value = std::stod(numberString);
@@ -95,13 +95,11 @@ namespace ArithmeticParser
 
 		std::vector<Token> tokens;
 
-		bool wasNumber = false;
-
 		for (size_t i = 0; i < s.size();)
 		{
 			Token token;
 
-			bool parsedSuccessfully =
+			const auto parsedSuccessfully =
 				TryToParseOperator(s, i, i, token) ||
 				TryToParseNumber(s, i, i, token);
 

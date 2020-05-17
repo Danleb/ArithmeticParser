@@ -2,13 +2,14 @@
 #ifndef PARENTHESIS_TYPE_H
 #define PARENTHESIS_TYPE_H
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	enum class ParenthesisType
 	{
 		None = 0,
-		Opening = 1,
-		Closing = 2
+		Round = 1,
+		Square = 2,
+		Curly = 3
 	};
 }
 

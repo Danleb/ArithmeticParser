@@ -2,7 +2,7 @@
 #ifndef BUILTIN_FUNCTION_H
 #define BUILTIN_FUNCTION_H
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	enum class BuiltinFunction
 	{

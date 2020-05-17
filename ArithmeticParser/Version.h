@@ -1,8 +1,10 @@
 #pragma once
 #ifndef VERSION_H
 
-#define MAJOR_VERSION 0
-#define MINOR_VERSION 0
-#define BUILD_VERSION 1
+constexpr int MAJOR_VERSION = 0;
+constexpr int MINOR_VERSION = 0;
+constexpr int BUILD_VERSION = 1;
+constexpr int YEAR = 2020;
+constexpr char AUTHOR[] = "Danylo Lebediev";
 
 #endif // !VERSION_H

@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>Arithmetic Parser</TargetName>
+    <TargetName>mathParser</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArgumentsParsing.cpp" />
     <ClCompile Include="LexicalParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -167,12 +168,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BuiltinFunction.h" />
+    <ClInclude Include="CommandLineOption.h" />
+    <ClInclude Include="ArgumentsParsing.h" />
     <ClInclude Include="ErrorCode.h" />
+    <ClInclude Include="ErrorData.h" />
     <ClInclude Include="LexicalParser.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="OperatorType.h" />
+    <ClInclude Include="ParenthesisSide.h" />
     <ClInclude Include="ParenthesisType.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SyntacticParser.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenType.h" />
@@ -180,7 +186,13 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ErrorCodeDescription.txt" />
-    <Text Include="Help.txt" />
+    <Text Include="Help.txt">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ArithmeticParser.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

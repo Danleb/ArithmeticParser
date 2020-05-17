@@ -2,9 +2,9 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include"Token.h"
+#include "Token.h"
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	class Node
 	{
@@ -14,11 +14,16 @@ namespace ArithmeticParser
 		Token* token;
 	
 	public:
+		Node() = default;
+		Node(const Node&) = default;
+		Node(Token token);
+		~Node() = default;
+
 		Node* GetLeftChild() const noexcept;
 		Node* GetRightChild() const noexcept;
 		Token* GetToken() const noexcept;
 
-		double Calculate();
+		double Calculate() const noexcept;
 	};
 }
 

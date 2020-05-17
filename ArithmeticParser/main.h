@@ -1,11 +1,11 @@
 #pragma once
 #ifndef MAIN_H
 
-#include"ErrorCode.h"
+#include "ErrorCode.h"
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
-	ArithmeticParser::ErrorCode Process(int argc, char** argv);
+	ErrorCode Process(int argc, char* argv[]);
 }
 
 #endif // !MAIN_H

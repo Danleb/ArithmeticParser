@@ -1,7 +1,36 @@
-Welcome to the Arithmetic Parser v0.0.1 !
+Welcome to the Arithmetic Parser!
 
 You can enter mathematical expressions and get them computed.
 For example:
 1+1
 2*6+3
 2(3+5)
+
+Command line options are case-insensitive. Expressions are case-sensitive.
+
+Command line options:
+
+-h
+--help
+Help: Give usage message and exit.
+
+-v
+--version
+Version: Show program version and exit.
+
+-e
+--expression
+Expression: Expression to calculate. If expression contains whitespace, it must be concluded in double quotes.
+This is default option, if no options are supplied. Can be omitted.
+
+-c
+--clipboard
+Clipboard: Copy the calculated value of the expression to the clipboard.
+
+-f <fileName>
+--file <fileName>
+File: Specifies the file to load expression from.
+
+-s <fileName>
+-save <fileName>
+Save: Specifies the file to write the calculations result.

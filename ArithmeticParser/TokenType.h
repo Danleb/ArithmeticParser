@@ -2,7 +2,7 @@
 #ifndef TOKEN_TYPE_H
 #define TOKEN_TYPE_H
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	enum class TokenType
 	{

@@ -16,6 +16,12 @@
     <Filter Include="Header Files\Enums">
       <UniqueIdentifier>{89543540-ea25-4e75-9f0a-a7f3a05c207b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{adec277f-a1d1-42aa-91d3-2b60f001894b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parser">
+      <UniqueIdentifier>{07a14c0e-ece1-4fbe-b8f4-8ba4aff32dba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,22 +39,11 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArgumentsParsing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Utils.h">
-      <Filter>Header Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="SyntacticParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LexicalParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OperatorType.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
@@ -58,20 +53,44 @@
     <ClInclude Include="BuiltinFunction.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParenthesisType.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
     <ClInclude Include="ErrorCode.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="CommandLineOption.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ParenthesisSide.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
     <ClInclude Include="Version.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentsParsing.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Token.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="SyntacticParser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LexicalParser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorData.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,5 +100,15 @@
     <Text Include="ErrorCodeDescription.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ArithmeticParser.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Utils.h">
+      <Filter>Header Files\Utils</Filter>
+    </None>
   </ItemGroup>
 </Project>

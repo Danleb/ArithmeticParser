@@ -2,12 +2,12 @@
 #ifndef LEXICAL_PARSER_H
 #define LEXICAL_PARSER_H
 
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
 
-#include"Token.h"
+#include "Token.h"
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	std::vector<Token> GetTokens(std::string);
 }

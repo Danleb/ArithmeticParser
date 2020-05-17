@@ -2,7 +2,7 @@
 #ifndef OPERATOR_TYPE_H
 #define OPERATOR_TYPE_H
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	enum class OperatorType
 	{

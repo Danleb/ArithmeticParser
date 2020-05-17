@@ -2,20 +2,26 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include<string>
+#include <string>
+#include <utility>
 
-#include"TokenType.h"
-#include"OperatorType.h"
+#include "TokenType.h"
+#include "OperatorType.h"
+#include "BuiltinFunction.h"
 
-namespace ArithmeticParser
+namespace arithmetic_parser
 {
 	class Token
 	{
 	public:
 		TokenType tokenType;
 		OperatorType operatorType;
+		BuiltinFunction builtin_function;
 		double number;
 		std::string variableName;
+
+		int tokenStart;
+		int tokenLength;
 
 		Token() = default;
 		Token(Token const&) = default;
@@ -43,7 +49,7 @@ namespace ArithmeticParser
 			tokenType(TokenType::Variable),
 			operatorType(OperatorType::None),
 			number(0),
-			variableName(variableName)
+			variableName(std::move(variableName))
 		{
 
 		}
