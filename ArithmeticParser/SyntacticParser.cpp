@@ -1,48 +1,111 @@
 #include <memory>
 #include <vector>
+#include <sstream>
 
+#include "BuiltinFunctionType.h"
 #include "Token.h"
 #include "LexicalParser.h"
 #include "SyntacticParser.h"
 #include "TokenType.h"
-#include "OperatorType.h"
 
 namespace arithmetic_parser
 {
-	std::unique_ptr<Node> ParseFunction(std::string s)
+	SyntacticParser::SyntacticParser(const std::string input)
 	{
-		auto tokens = GetTokens(s);
-		auto node = ParseFunction(tokens);
+		m_input = input;
+	}
+
+	SyntacticParser::SyntacticParser(const std::vector<std::shared_ptr<Token>> tokens)
+	{
+		m_tokens = tokens;
+	}
+
+	std::shared_ptr<Node> SyntacticParser::ParseFunction()
+	{
+		auto tokens = GetTokens(m_input);
+		auto node = ParseFunction(0, tokens.size());
 		return node;
 	}
 
-	std::unique_ptr<Node> ParseFunction(std::vector<Token> tokens)
+	std::shared_ptr<Node> SyntacticParser::ParseFunction(size_t start, size_t end)
 	{
-		return ParseFunction(tokens, 0, 1);
-	}
+		//CheckForParenthesisCorrectness(tokens, start, end);
 
-	std::unique_ptr<Node> ParseFunction(std::vector<Token> tokens, int start, int end)
-	{
-		for (size_t i = 0; i < tokens.size(); i++)
+		if (start == end)
 		{
-			Token currentToken = tokens[i];
+			auto current_token = m_tokens[start];
 
-			if (currentToken.tokenType == TokenType::Operator)
+			if (current_token->tokenType == TokenType::Number)
 			{
-				if (currentToken.operatorType == OperatorType::Addition ||
-					currentToken.operatorType == OperatorType::Subtraction)
-				{
-					Node node(currentToken);
-
-				}
-				else if (currentToken.operatorType == OperatorType::Multiplication ||
-					currentToken.operatorType == OperatorType::Division)
-				{
-
-				}
+				auto current_node = std::make_shared<Node>(Node(current_token));
+				return current_node;
+			}
+			else
+			{
+				std::ostringstream str;
+				str << "Single token unparsed at position " << start << ". TokenType = " << static_cast<int>(current_token->tokenType);
+				throw std::runtime_error(str.str());
 			}
 		}
 
+		for (size_t i = start; i < end; i++)
+		{
+			auto current_token = m_tokens[i];
+
+			if (current_token->tokenType == TokenType::BuiltinFunction)
+			{
+				std::shared_ptr<Node> node;
+
+				if (TryInflectionPointAddSubstr(node, current_token, start, end, i))
+				{
+					return node;
+				}
+
+				//mult div
+			}
+		}
+
+
+
 		return nullptr;
+	}
+
+	bool SyntacticParser::TryGetNumber()
+	{
+		return false;
+	}
+
+	/*bool SyntacticParser::TryInflectionPointMultiplyDivision(std::shared_ptr<Node>& node, const const std::vector<std::shared_ptr<Token>>& tokens, int start, int end)
+	{
+
+	}*/
+
+	bool SyntacticParser::TryInflectionPointAddSubstr(std::shared_ptr<Node>& current_node, const std::shared_ptr<Token>& current_token, size_t start, size_t end, size_t index)
+	{
+		auto inflection_function =
+			current_token->builtin_function_type == BuiltinFunctionType::Addition ||
+			current_token->builtin_function_type == BuiltinFunctionType::Subtraction;
+
+		auto inflection_point =
+			inflection_function &&
+			index != start &&
+			(
+				m_tokens[static_cast<size_t>(index - 1)]->tokenType == TokenType::Number
+				);
+
+		if (inflection_point)
+		{
+			current_node = std::make_shared<Node>(Node(current_token));
+
+			auto left_child = ParseFunction(start, static_cast<size_t>(index - 1));
+			current_node->AddChildNode(left_child);
+
+			auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
+			current_node->AddChildNode(left_child);
+
+			return true;
+		}
+
+		return false;
 	}
 }

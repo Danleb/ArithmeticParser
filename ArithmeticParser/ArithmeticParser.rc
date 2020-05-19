@@ -4,6 +4,8 @@
 
 #include "resource.h"
 
+IDR_TEXT1     TEXT      "..\\ArithmeticParser\\Help.txt"
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //

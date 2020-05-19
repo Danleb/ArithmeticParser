@@ -7,11 +7,12 @@ namespace arithmetic_parser
 	enum class TokenType
 	{
 		None = 0,
-		Number = 1,
-		Operator = 2,
-		Variable = 3,
-		BuiltinFunction = 4,
-		Parentheses = 5
+		Number,
+		Variable,
+		BuiltinFunction,
+		Parentheses,
+		Comma,
+		Constant
 	};
 }
 

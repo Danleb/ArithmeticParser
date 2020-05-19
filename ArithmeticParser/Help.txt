@@ -2,12 +2,25 @@ Welcome to the Arithmetic Parser!
 
 You can enter mathematical expressions and get them computed.
 For example:
-1+1
+1 + 1
 2*6+3
 2(3+5)
+2^(1/ln(5))
+
+============================================================
+Rules of expressions writing:
 
 Command line options are case-insensitive. Expressions are case-sensitive.
 
+Decimal delimiter is the dot character ".", for example "3.5".
+
+Comma character is operator for arguments listing, for example "log(1.2, 4.6)".
+
+Trigonometric functions expect input in radians.
+
+Reserved symbol constants - PI, e.
+
+============================================================
 Command line options:
 
 -h
@@ -34,3 +47,20 @@ File: Specifies the file to load expression from.
 -s <fileName>
 -save <fileName>
 Save: Specifies the file to write the calculations result.
+
+-r
+--verbose
+Verbose: detailed output while parsing.
+
+============================================================
+Supported built-in functions:
+	base arithmetic operators +-*/
+	power operator - x^y or x^(y+z)
+	absolute value - |x|
+	sinus - sin(x)
+	cosine - cos(x)
+	tangent - tg(x)
+	cotangent - ctg(x)
+	natural logarithm - ln(x)
+	decimal logarithm - lg(x)
+	logarithm with the arbitrary base - log(value, base)

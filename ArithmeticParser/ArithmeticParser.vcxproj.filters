@@ -44,22 +44,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OperatorType.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
     <ClInclude Include="TokenType.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="BuiltinFunction.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
     <ClInclude Include="ParenthesisType.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
     <ClInclude Include="ErrorCode.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandLineOption.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
     <ClInclude Include="ParenthesisSide.h">
@@ -91,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="BuiltinFunctionType.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdOption.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantType.h">
+      <Filter>Header Files\Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

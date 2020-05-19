@@ -2,6 +2,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <memory>
+#include <vector>
+
 #include "Token.h"
 
 namespace arithmetic_parser
@@ -9,19 +12,18 @@ namespace arithmetic_parser
 	class Node
 	{
 	private:
-		Node* leftChild;
-		Node* rightChild;
-		Token* token;
-	
+		std::vector<std::shared_ptr<Node>> m_child_nodes;
+		std::shared_ptr<Token> m_token;
+
 	public:
 		Node() = default;
 		Node(const Node&) = default;
-		Node(Token token);
+		Node(std::shared_ptr<Token> token);
 		~Node() = default;
 
-		Node* GetLeftChild() const noexcept;
-		Node* GetRightChild() const noexcept;
-		Token* GetToken() const noexcept;
+		std::shared_ptr<Token> GetToken() const noexcept;
+		
+		void AddChildNode(std::shared_ptr<Node>);
 
 		double Calculate() const noexcept;
 	};

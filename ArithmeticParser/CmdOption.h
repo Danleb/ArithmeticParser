@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COMMAND_LINE_OPTION_H
-#define COMMAND_LINE_OPTION_H
+#ifndef CMD_OPTION_H
+#define CMD_OPTION_H
 
 namespace arithmetic_parser
 {
@@ -17,4 +17,4 @@ namespace arithmetic_parser
 }
 
 
-#endif // !COMMAND_LINE_OPTION_H
+#endif // !CMD_OPTION_H

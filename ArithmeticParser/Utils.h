@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#include "CommandLineOption.h"
+#include "CmdOption.h"
 #include "ArgumentsParsing.h"
 
 namespace arithmetic_parser

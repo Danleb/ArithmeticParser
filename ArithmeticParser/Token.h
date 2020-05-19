@@ -5,9 +5,11 @@
 #include <string>
 #include <utility>
 
+#include "ParenthesisSide.h"
+#include "ParenthesisType.h"
+#include "ConstantType.h"
 #include "TokenType.h"
-#include "OperatorType.h"
-#include "BuiltinFunction.h"
+#include "BuiltinFunctionType.h"
 
 namespace arithmetic_parser
 {
@@ -15,10 +17,12 @@ namespace arithmetic_parser
 	{
 	public:
 		TokenType tokenType;
-		OperatorType operatorType;
-		BuiltinFunction builtin_function;
+		BuiltinFunctionType builtin_function_type;
 		double number;
 		std::string variableName;
+
+		ParenthesisType parenthesis_type;
+		ParenthesisSide parenthesis_side;
 
 		int tokenStart;
 		int tokenLength;
@@ -27,27 +31,40 @@ namespace arithmetic_parser
 		Token(Token const&) = default;
 		Token& operator=(Token const&) = default;
 
-		Token(OperatorType operatorType) :
-			tokenType(TokenType::Operator),
-			operatorType(operatorType),
-			number(0),
-			variableName("")
+		Token(ParenthesisType parenthesisType, ParenthesisSide parenthesisSide) :
+			parenthesis_type(parenthesisType),
+			parenthesis_side(parenthesisSide)
 		{
 
 		}
 
 		Token(double number) :
 			tokenType(TokenType::Number),
-			operatorType(OperatorType::None),
+			builtin_function_type(BuiltinFunctionType::None),
 			number(number),
 			variableName("")
 		{
 
 		}
 
+		Token(BuiltinFunctionType builtinFunctionType) :
+			tokenType(TokenType::BuiltinFunction),
+			builtin_function_type(builtinFunctionType),
+			number(0),
+			variableName("")
+		{
+
+		}
+
+		Token(ConstantType constantType) :
+			tokenType(TokenType::Constant)
+		{
+
+		}
+
 		Token(std::string variableName) :
 			tokenType(TokenType::Variable),
-			operatorType(OperatorType::None),
+			builtin_function_type(BuiltinFunctionType::None),
 			number(0),
 			variableName(std::move(variableName))
 		{

@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include "CommandLineOption.h"
+#include "CmdOption.h"
 
 namespace arithmetic_parser
 {
@@ -17,7 +17,8 @@ namespace arithmetic_parser
 		std::string full_name;
 		size_t arguments_count;
 
-		bool operator<(const OptionData& od)const;
+		bool operator<(const OptionData& od) const;
+		bool operator==(const OptionData& od)const;
 	};
 
 	struct OptionInput

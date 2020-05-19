@@ -4,15 +4,16 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <set>
 
 #include "ArgumentsParsing.h"
-#include "CommandLineOption.h"
-#include <set>
+#include "CmdOption.h"
 
 namespace arithmetic_parser
 {
-	bool CheckForFullOption(std::set<OptionData>& parsed_options, const std::string& argument);
-	std::set<OptionData> TryGetOptions(const std::string& argument);
+	std::vector<OptionData> TryGetOptions(const std::string& argument);
+	bool CheckForFullOption(std::vector<OptionData>& parsed_options, const std::string& argument);
+	bool CheckForShortOptions(std::vector<OptionData>& parsed_options, const std::string& argument);
 	std::vector<std::string> GetArguments(int argc, char* argv[], size_t current_index, const OptionData& option_data, std::vector<bool>& used);
 	void BuildExpressionFromAllArguments(int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs);
 	void TryBuildExpressionFromUnused(int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs, std::vector<bool>& used);
@@ -76,7 +77,7 @@ namespace arithmetic_parser
 		return arguments;
 	}
 
-	bool CheckForFullOption(std::set<OptionData>& parsed_options, const std::string& argument)
+	bool CheckForFullOption(std::vector<OptionData>& parsed_options, const std::string& argument)
 	{
 		if (argument.size() < 3)
 			return false;
@@ -92,7 +93,7 @@ namespace arithmetic_parser
 
 			if (cut_argument == option_data.full_name)
 			{
-				parsed_options.insert(option_data);
+				parsed_options.push_back(option_data);
 				return true;
 			}
 		}
@@ -100,7 +101,7 @@ namespace arithmetic_parser
 		return false;
 	}
 
-	bool CheckForShortOptions(std::set<OptionData>& parsed_options, const std::string& argument)
+	bool CheckForShortOptions(std::vector<OptionData>& parsed_options, const std::string& argument)
 	{
 		if (argument.size() < 2)
 			return false;
@@ -108,7 +109,7 @@ namespace arithmetic_parser
 		if (argument[0] != '-')
 			return false;
 
-		std::set<OptionData> local_parser_options{};
+		std::vector<OptionData> local_parser_options{};
 
 		for (size_t i = 1; i < argument.size(); ++i)
 		{
@@ -122,10 +123,10 @@ namespace arithmetic_parser
 
 				if (current_symbol == option_data.short_name)
 				{
-					if (local_parser_options.find(option_data) == local_parser_options.end())
+					if (std::find(local_parser_options.begin(), local_parser_options.end(), option_data) == local_parser_options.end())
 					{
 						was_any_option = true;
-						local_parser_options.emplace(option_data);
+						local_parser_options.push_back(option_data);
 						break;
 					}
 					else
@@ -143,13 +144,13 @@ namespace arithmetic_parser
 			}
 		}
 
-		parsed_options.insert(local_parser_options.begin(), local_parser_options.end());
+		parsed_options.insert(parsed_options.end(), local_parser_options.begin(), local_parser_options.end());
 		return true;
 	}
 
-	std::set<OptionData> TryGetOptions(const std::string& argument)
+	std::vector<OptionData> TryGetOptions(const std::string& argument)
 	{
-		std::set<OptionData> parsed_options{};
+		std::vector<OptionData> parsed_options{};
 
 		if (CheckForFullOption(parsed_options, argument))
 			return parsed_options;
@@ -223,5 +224,10 @@ namespace arithmetic_parser
 	bool OptionData::operator<(const OptionData& od) const
 	{
 		return short_name < od.short_name;
+	}
+
+	bool OptionData::operator==(const OptionData& od) const
+	{
+		return command_line_option == od.command_line_option;
 	}
 }

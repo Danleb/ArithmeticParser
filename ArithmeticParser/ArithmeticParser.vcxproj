@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>mathParser</TargetName>
+    <TargetName>aparser</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -167,15 +167,15 @@
     <None Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BuiltinFunction.h" />
-    <ClInclude Include="CommandLineOption.h" />
+    <ClInclude Include="BuiltinFunctionType.h" />
+    <ClInclude Include="CmdOption.h" />
     <ClInclude Include="ArgumentsParsing.h" />
+    <ClInclude Include="ConstantType.h" />
     <ClInclude Include="ErrorCode.h" />
     <ClInclude Include="ErrorData.h" />
     <ClInclude Include="LexicalParser.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="OperatorType.h" />
     <ClInclude Include="ParenthesisSide.h" />
     <ClInclude Include="ParenthesisType.h" />
     <ClInclude Include="resource.h" />

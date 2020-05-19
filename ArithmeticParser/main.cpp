@@ -45,7 +45,7 @@ namespace arithmetic_parser
 			return ErrorCode::SUCCESS;
 		}
 
-		if(FindOption(option_inputs, CmdOption::Help, option_input))
+		if (FindOption(option_inputs, CmdOption::Help, option_input))
 		{
 			ShowHelp();
 			return  ErrorCode::SUCCESS;
@@ -53,25 +53,26 @@ namespace arithmetic_parser
 
 		std::string input;
 
-		if(FindOption(option_inputs, CmdOption::File, option_input))
+		if (FindOption(option_inputs, CmdOption::File, option_input))
 		{
 			auto load_path = option_input.arguments[0];
 
-			if(!LoadExpression(load_path, input))
+			if (!LoadExpression(load_path, input))
 			{
 				return ErrorCode::UNDEFINED_ERROR;
 			}
 		}
 		else
 		{
-			
+
 		}
 
-		std::unique_ptr<Node> node;
+		std::shared_ptr<Node> node;
 
 		try
 		{
-			node = ParseFunction(input);
+			SyntacticParser syntactic_parser(input);
+			node = syntactic_parser.ParseFunction();
 		}
 		catch (const std::exception& e)
 		{
@@ -94,13 +95,13 @@ namespace arithmetic_parser
 			return ErrorCode::SYNTACTIC_ERROR;
 		}
 
-		if(FindOption(option_inputs, CmdOption::Save, option_input))
+		if (FindOption(option_inputs, CmdOption::Save, option_input))
 		{
 			const auto save_path = option_input.arguments[0];
 			SaveResult(save_path, result);
 		}
 
-		if(FindOption(option_inputs, CmdOption::Clipboard, option_input))
+		if (FindOption(option_inputs, CmdOption::Clipboard, option_input))
 		{
 			CopyToTheClipboard(result);
 		}

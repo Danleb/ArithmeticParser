@@ -4,9 +4,11 @@
 #include <sstream>
 #include <string>
 #include <cerrno>
+#include <WinUser.h>
 
 #include "Utils.h"
 #include "Version.h"
+#include "resource.h"
 
 namespace arithmetic_parser
 {
@@ -34,6 +36,22 @@ namespace arithmetic_parser
 		ShowVersion();
 		std::cout << std::endl;
 
+		auto resource_id = IDR_TEXT1;
+		auto resname = "";
+		auto hResource = FindResource(nullptr, MAKEINTRESOURCEW(resource_id), L"TEXT");
+		auto hMemory = LoadResource(nullptr, hResource);
+
+		std::size_t size_bytes = 0;
+		void* ptr = nullptr;
+
+		size_bytes = SizeofResource(nullptr, hResource);
+		ptr = LockResource(hMemory);
+		
+		std::string_view dst;
+		if (ptr != nullptr)
+			dst = std::string_view(reinterpret_cast<char*>(ptr), size_bytes);
+
+		std::cout << dst;
 	}
 
 	bool SaveResult(const std::string& file_path, double result) noexcept

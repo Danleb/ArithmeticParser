@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by ArithmeticParser.rc
 
+#define IDR_TEXT1 101
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
