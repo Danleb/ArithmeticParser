@@ -6,6 +6,8 @@
 #include <cerrno>
 #include <WinUser.h>
 
+#include "ArgumentsParsing.h"
+#include "ErrorCode.h"
 #include "Utils.h"
 #include "Version.h"
 #include "resource.h"
@@ -36,20 +38,19 @@ namespace arithmetic_parser
 		ShowVersion();
 		std::cout << std::endl;
 
-		auto resource_id = IDR_TEXT1;
-		auto resname = "";
+		auto resource_id = IDR_HELP_TEXT;
 		auto hResource = FindResource(nullptr, MAKEINTRESOURCEW(resource_id), L"TEXT");
 		auto hMemory = LoadResource(nullptr, hResource);
 
-		std::size_t size_bytes = 0;
-		void* ptr = nullptr;
+		size_t size_bytes = SizeofResource(nullptr, hResource);
+		void* ptr = LockResource(hMemory);
 
-		size_bytes = SizeofResource(nullptr, hResource);
-		ptr = LockResource(hMemory);
-		
 		std::string_view dst;
 		if (ptr != nullptr)
+		{
 			dst = std::string_view(reinterpret_cast<char*>(ptr), size_bytes);
+			FreeResource(hResource);
+		}
 
 		std::cout << dst;
 	}
@@ -90,6 +91,41 @@ namespace arithmetic_parser
 		SetClipboardData(CF_TEXT, hg);
 		CloseClipboard();
 		GlobalFree(hg);
+	}
+
+	bool GetInput(const std::map<CmdOption, OptionInput>& option_inputs, std::string& input)
+	{
+		OptionInput file_option_input;
+		auto readFromFile = FindOption(option_inputs, CmdOption::File, file_option_input);
+
+		OptionInput expr_option_input;
+		auto readFromCmd = FindOption(option_inputs, CmdOption::Expression, expr_option_input);
+
+		if (readFromCmd && readFromFile)
+		{
+			std::cout << "Expression is specified from command line and from file. Only one expression source is allowed.";
+			return false;
+		}
+
+		if (readFromFile)
+		{
+			auto load_path = file_option_input.arguments[0];
+
+			if (LoadExpression(load_path, input))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		if (readFromCmd)
+		{
+			input = expr_option_input.arguments[0];
+			return true;
+		}
 	}
 
 	bool LoadExpression(const std::string& file_path, std::string& input)

@@ -18,6 +18,7 @@ namespace arithmetic_parser
 	bool SaveResult(const std::string& file_path, double result) noexcept;
 	void CopyToTheClipboard(double);
 	bool LoadExpression(const std::string& file_path,  std::string& input);
+	bool GetInput(const std::map<CmdOption, OptionInput>& option_inputs, std::string& input);
 }
 
 #endif // !UTILS_H

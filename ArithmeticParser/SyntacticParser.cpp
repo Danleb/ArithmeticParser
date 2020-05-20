@@ -13,6 +13,7 @@ namespace arithmetic_parser
 	SyntacticParser::SyntacticParser(const std::string input)
 	{
 		m_input = input;
+		m_tokens = GetTokens(m_input);
 	}
 
 	SyntacticParser::SyntacticParser(const std::vector<std::shared_ptr<Token>> tokens)
@@ -22,8 +23,7 @@ namespace arithmetic_parser
 
 	std::shared_ptr<Node> SyntacticParser::ParseFunction()
 	{
-		auto tokens = GetTokens(m_input);
-		auto node = ParseFunction(0, tokens.size());
+		auto node = ParseFunction(0, m_tokens.size() - 1);
 		return node;
 	}
 
@@ -31,13 +31,16 @@ namespace arithmetic_parser
 	{
 		//CheckForParenthesisCorrectness(tokens, start, end);
 
+		//if(number
+		//if(variable
 		if (start == end)
 		{
+			//check for single number
 			auto current_token = m_tokens[start];
 
 			if (current_token->tokenType == TokenType::Number)
 			{
-				auto current_node = std::make_shared<Node>(Node(current_token));
+				auto current_node = std::make_shared<Node>(current_token);
 				return current_node;
 			}
 			else
@@ -48,15 +51,18 @@ namespace arithmetic_parser
 			}
 		}
 
-		for (size_t i = start; i < end; i++)
+		//check for inflection points
+		for (size_t i = end + 1; i >= start + 1; --i)
 		{
-			auto current_token = m_tokens[i];
+			auto index = i - 1;
+
+			auto current_token = m_tokens[index];
 
 			if (current_token->tokenType == TokenType::BuiltinFunction)
 			{
 				std::shared_ptr<Node> node;
 
-				if (TryInflectionPointAddSubstr(node, current_token, start, end, i))
+				if (TryInflectionPointAddSubstr(node, current_token, start, end, index))
 				{
 					return node;
 				}
@@ -65,7 +71,24 @@ namespace arithmetic_parser
 			}
 		}
 
-
+		//check for signed operator
+		auto start_token = m_tokens[start];
+		if (start_token->tokenType == TokenType::BuiltinFunction)
+		{
+			if (start_token->builtin_function_type == BuiltinFunctionType::Addition)
+			{
+				auto nested_node = ParseFunction(start + 1, end);
+				return nested_node;
+			}
+			else if (start_token->builtin_function_type == BuiltinFunctionType::Subtraction)
+			{
+				auto nested_node = ParseFunction(start + 1, end);
+				start_token->builtin_function_type = BuiltinFunctionType::SignMinus;
+				auto node = std::make_shared<Node>(start_token);
+				node->AddChildNode(nested_node);
+				return node;
+			}
+		}
 
 		return nullptr;
 	}
@@ -75,10 +98,22 @@ namespace arithmetic_parser
 		return false;
 	}
 
-	/*bool SyntacticParser::TryInflectionPointMultiplyDivision(std::shared_ptr<Node>& node, const const std::vector<std::shared_ptr<Token>>& tokens, int start, int end)
+	bool SyntacticParser::TryInflectionPointMultiplyDivision(std::shared_ptr<Node>& current_node, const std::shared_ptr<Token>& current_token, size_t start, size_t end, size_t index)
 	{
+		auto inflection_function =
+			current_token->builtin_function_type == BuiltinFunctionType::Multiplication ||
+			current_token->builtin_function_type == BuiltinFunctionType::Division;
 
-	}*/
+		auto inflection_point =
+			inflection_function &&
+			index != start &&
+			(
+				m_tokens[static_cast<size_t>(index - 1)]->tokenType == TokenType::Number
+				);
+			;
+
+		return false;
+	}
 
 	bool SyntacticParser::TryInflectionPointAddSubstr(std::shared_ptr<Node>& current_node, const std::shared_ptr<Token>& current_token, size_t start, size_t end, size_t index)
 	{
@@ -101,7 +136,7 @@ namespace arithmetic_parser
 			current_node->AddChildNode(left_child);
 
 			auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
-			current_node->AddChildNode(left_child);
+			current_node->AddChildNode(right_child);
 
 			return true;
 		}

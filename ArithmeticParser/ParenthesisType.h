@@ -9,7 +9,8 @@ namespace arithmetic_parser
 		None = 0,
 		Round = 1,
 		Square = 2,
-		Curly = 3
+		Curly = 3,
+		Straight = 4
 	};
 }
 

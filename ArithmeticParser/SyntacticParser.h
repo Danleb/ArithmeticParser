@@ -31,7 +31,7 @@ namespace arithmetic_parser
 
 		bool TryGetNumber();
 		bool TryInflectionPointAddSubstr(std::shared_ptr<Node>& current_node, const std::shared_ptr<Token>& current_token, size_t start, size_t end, size_t index);
-
+		bool TryInflectionPointMultiplyDivision(std::shared_ptr<Node>& current_node, const std::shared_ptr<Token>& current_token, size_t start, size_t end, size_t index);
 	};
 }
 

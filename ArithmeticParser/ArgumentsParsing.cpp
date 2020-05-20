@@ -15,8 +15,8 @@ namespace arithmetic_parser
 	bool CheckForFullOption(std::vector<OptionData>& parsed_options, const std::string& argument);
 	bool CheckForShortOptions(std::vector<OptionData>& parsed_options, const std::string& argument);
 	std::vector<std::string> GetArguments(int argc, char* argv[], size_t current_index, const OptionData& option_data, std::vector<bool>& used);
-	void BuildExpressionFromAllArguments(int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs);
-	void TryBuildExpressionFromUnused(int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs, std::vector<bool>& used);
+	void BuildExpressionFromAllArguments(const int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs);
+	void TryBuildExpressionFromUnused(const int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs, std::vector<bool>& used);
 
 	void ParseArguments(const int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs)
 	{
@@ -51,7 +51,7 @@ namespace arithmetic_parser
 			TryBuildExpressionFromUnused(argc, argv, option_inputs, used);
 	}
 
-	std::vector<std::string> GetArguments(const int argc, char* argv[], const size_t current_index, const OptionData& option_data, std::vector<bool>& used)
+	std::vector<std::string> GetArguments(int argc, char* argv[], size_t current_index, const OptionData& option_data, std::vector<bool>& used)
 	{
 		std::vector<std::string> arguments{};
 
@@ -189,7 +189,8 @@ namespace arithmetic_parser
 			for (size_t i = unusedStart; i < unusedEnd; ++i)
 			{
 				input.append(argv[i]);
-				input.append(" ");
+				if (i + 1 < argc)
+					input.append(" ");
 			}
 
 			OptionInput option_input{
@@ -197,7 +198,7 @@ namespace arithmetic_parser
 				{input}
 			};
 
-			option_inputs.emplace(CmdOption::Expression, option_input);
+			option_inputs.insert({ CmdOption::Expression, option_input });
 		}
 	}
 
@@ -211,7 +212,8 @@ namespace arithmetic_parser
 		for (size_t i = 1; i < argc; ++i)
 		{
 			input.append(argv[i]);
-			input.append(" ");
+			if (i + 1 < argc)
+				input.append(" ");
 		}
 
 		option_inputs[CmdOption::Expression] = OptionInput

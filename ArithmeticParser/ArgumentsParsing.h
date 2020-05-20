@@ -27,15 +27,6 @@ namespace arithmetic_parser
 		std::vector<std::string> arguments;
 	};
 
-	/*const std::vector<OptionData> available_options{
-		{ CommandLineOption::Help, "h", "help", 0 },
-		{ CommandLineOption::Version, "v", "version", 0 },
-		{ CommandLineOption::Clipboard, "c", "clipboard", 0 },
-		{ CommandLineOption::File, "f", "file", 1 },
-		{ CommandLineOption::Expression, "e", "expression", 1 },
-		{ CommandLineOption::Save, "s", "save", 1 },
-	};*/
-
 	const std::map<CmdOption, OptionData>available_options_map{
 		{{CmdOption::Help}, { CmdOption::Help, 'h', "help", 0 }},
 		{{CmdOption::Version}, { CmdOption::Version, 'v', "version", 0 }},

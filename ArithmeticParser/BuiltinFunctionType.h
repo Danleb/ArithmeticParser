@@ -12,6 +12,9 @@ namespace arithmetic_parser
 		Multiplication,
 		Division,
 
+		SignPlus,
+		SignMinus,
+
 		Power,
 		Absolute,		
 

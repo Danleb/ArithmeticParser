@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArgumentsParsing.cpp" />
+    <ClCompile Include="ArithmeticParserApi.cpp" />
     <ClCompile Include="LexicalParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -167,6 +168,7 @@
     <None Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArithmeticParserApi.h" />
     <ClInclude Include="BuiltinFunctionType.h" />
     <ClInclude Include="CmdOption.h" />
     <ClInclude Include="ArgumentsParsing.h" />
@@ -174,7 +176,6 @@
     <ClInclude Include="ErrorCode.h" />
     <ClInclude Include="ErrorData.h" />
     <ClInclude Include="LexicalParser.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ParenthesisSide.h" />
     <ClInclude Include="ParenthesisType.h" />

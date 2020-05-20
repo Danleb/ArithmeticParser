@@ -39,7 +39,8 @@ namespace arithmetic_parser
 			token = std::make_shared<Token>(BuiltinFunctionType::Division);
 			break;
 		}
-		default: return false;
+		default:
+			return false;
 		}
 
 		shiftedIndex = index + 1;
@@ -77,8 +78,11 @@ namespace arithmetic_parser
 			token = std::make_shared<Token>(ParenthesisType::Curly, ParenthesisSide::Closing);
 			break;
 		}
-
-		default: return false;
+		case '|':
+			token = std::make_shared<Token>(ParenthesisType::Straight, ParenthesisSide::None);
+			break;
+		default:
+			return false;
 		}
 
 		shiftedIndex = current_index + 1;
@@ -92,12 +96,8 @@ namespace arithmetic_parser
 
 		switch (c)
 		{
-		case '|':
-
-			break;
-
 		case ',':
-
+			//token = std::make_shared(TokenType::Comma);
 			break;
 
 		default:
@@ -135,6 +135,9 @@ namespace arithmetic_parser
 			else
 				break;
 		}
+
+		if (numberString.size() == 0)
+			return false;
 
 		if (numberString.size() == 1 && delimiterWas)
 		{
@@ -184,7 +187,7 @@ namespace arithmetic_parser
 			{
 				std::ostringstream string_stream;
 				string_stream << "Not recognized expression starting from symbol " << input[i] << " at position " << i << ".";
-				throw new std::runtime_error(string_stream.str());
+				throw std::runtime_error(string_stream.str());
 			}
 		}
 

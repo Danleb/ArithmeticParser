@@ -32,6 +32,12 @@ namespace arithmetic_parser
 		{
 			switch (m_token->builtin_function_type)
 			{
+			case BuiltinFunctionType::SignMinus:
+			{
+				double value = m_child_nodes[0]->Calculate();
+				double negatedValue = -value;
+				return negatedValue;
+			}
 			case BuiltinFunctionType::Addition:
 			{
 				double leftValue = m_child_nodes[0]->Calculate();
