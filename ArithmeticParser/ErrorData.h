@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ERROR_DATA_H
-#define ERROR_DATA_H
 
 #include "ErrorCode.h"
 
@@ -8,10 +6,14 @@ namespace arithmetic_parser
 {
 	struct ErrorData
 	{
-		ErrorCode errorCode;
-		int errorStartIndex;
-		int errorEndIndex;
+		ErrorCode m_error_code;
+		int m_error_start_index;
+		int m_error_end_index;
+		//string description of the error
+
+		ErrorData() = default;
+		ErrorData(const ErrorData&) = default;
+		ErrorData(ErrorCode error_code, int error_start_index);
+		ErrorData(ErrorCode error_code, int error_start_index, int error_end_index);
 	};
 }
-
-#endif // !ERROR_DATA_H

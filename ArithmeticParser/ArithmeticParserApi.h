@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ARITHMETIC_PARSER_API_H
-#define ARITHMETIC_PARSER_API_H
 
 #include <map>
 
@@ -15,5 +13,3 @@ namespace arithmetic_parser
 
 	__declspec(dllexport) ErrorCode Process(const std::string& input, double& result);
 }
-
-#endif // ARITHMETIC_PARSER_API_H

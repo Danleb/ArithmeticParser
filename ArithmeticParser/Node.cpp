@@ -1,4 +1,5 @@
-#include <math.h>
+#define _USE_MATH_DEFINES 
+#include <cmath>
 
 #include "Node.h"
 
@@ -26,6 +27,21 @@ namespace arithmetic_parser
 		case TokenType::Number:
 		{
 			return m_token->number;
+		}
+
+		case TokenType::Constant:
+		{
+			switch (m_token->constant_type)
+			{
+			case ConstantType::PI: {
+				return M_PI;
+			}
+			case ConstantType::Exponent: {
+				return M_E;
+			}
+			default:
+				throw std::exception("Unrecognized consntant tpye");
+			}
 		}
 
 		case TokenType::BuiltinFunction:
@@ -115,13 +131,10 @@ namespace arithmetic_parser
 				double value = log10(argument_value);
 				return value;
 			}
-
 			}
-
-			return 0;
+		}
 		}
 
-		return 0;
-		}
+		throw std::exception("Unrecognized token type");
 	}
 }

@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by ArithmeticParser.rc
 
+#pragma once
+
 #define IDR_HELP_TEXT 101
 
 // Next default values for new objects

@@ -11,8 +11,6 @@
 
 namespace ArithmeticalParserTests
 {
-	constexpr double Epsilon = 1e-9;
-
 	TEST(SyntacticParserTests, ZeroTest)
 	{
 		arithmetic_parser::SyntacticParser parser("0");
@@ -29,7 +27,7 @@ namespace ArithmeticalParserTests
 		ASSERT_DOUBLE_EQ(value, 2);
 	}
 
-	TEST(SyntacticParserTests, _1234_Plus_4567)
+	TEST(SyntacticParserTests, _1234_Plus_4567_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1234+4567");
 		auto node = parser.ParseFunction();
@@ -37,7 +35,7 @@ namespace ArithmeticalParserTests
 		ASSERT_DOUBLE_EQ(value, (1234 + 4567));
 	}
 
-	TEST(SyntacticParserTests, _1234_Minus_4567)
+	TEST(SyntacticParserTests, _1234_Minus_4567_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1234-4567");
 		auto node = parser.ParseFunction();
@@ -93,12 +91,12 @@ namespace ArithmeticalParserTests
 		ASSERT_DOUBLE_EQ(value, 969);
 	}
 
-	TEST(SyntacticParserTests, _2x2_Test)
+	TEST(SyntacticParserTests, _2x3_Test)
 	{
-		arithmetic_parser::SyntacticParser parser("2*2");
+		arithmetic_parser::SyntacticParser parser("2*3");
 		auto node = parser.ParseFunction();
 		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 4);
+		ASSERT_DOUBLE_EQ(value, 6);
 	}
 
 	TEST(SyntacticParserTests, _1x2x3x4_Test)
@@ -107,5 +105,36 @@ namespace ArithmeticalParserTests
 		auto node = parser.ParseFunction();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 24);
+	}
+
+	TEST(SyntacticParserTests, _2_Divide_10_Test)
+	{
+		arithmetic_parser::SyntacticParser parser("2/10");
+		auto node = parser.ParseFunction();
+		auto value = node->Calculate();
+		ASSERT_DOUBLE_EQ(value, (2. / 10.));
+	}
+
+	TEST(SyntacticParserTests, PlusMinusAndMult_Test)
+	{
+		arithmetic_parser::SyntacticParser parser("1+10*10-8*2*2");
+		auto node = parser.ParseFunction();
+		auto value = node->Calculate();
+		ASSERT_DOUBLE_EQ(value, (1 + 10 * 10 - 8 * 2 * 2));
+	}
+
+	TEST(SyntacticParserTests, PlusMinusAndDiv_Test)
+	{
+		arithmetic_parser::SyntacticParser parser("1+10*10+4/5-8*2*2");
+		auto node = parser.ParseFunction();
+		auto value = node->Calculate();
+		ASSERT_DOUBLE_EQ(value, (1 + 10 * 10 + 4. / 5. - 8 * 2 * 2));
+	}
+
+	TEST(SyntacticParserTests, TwoPowerThree_Test)
+	{
+		arithmetic_parser::SyntacticParser parser("2^3");
+		auto value = parser.ParseFunction()->Calculate();
+		ASSERT_DOUBLE_EQ(value, pow(2, 3));
 	}
 }

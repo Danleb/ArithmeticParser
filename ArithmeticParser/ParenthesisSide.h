@@ -1,6 +1,4 @@
 #pragma once
-#ifndef PARENTHESIS_SIDE_H
-#define PARENTHESIS_SIDE_H
 
 namespace arithmetic_parser
 {
@@ -11,5 +9,3 @@ namespace arithmetic_parser
 		Closing = 2,
 	};
 }
-
-#endif // !PARENTHESIS_SIDE_H

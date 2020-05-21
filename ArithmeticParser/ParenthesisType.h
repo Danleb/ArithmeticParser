@@ -1,6 +1,4 @@
 #pragma once
-#ifndef PARENTHESIS_TYPE_H
-#define PARENTHESIS_TYPE_H
 
 namespace arithmetic_parser
 {
@@ -13,5 +11,3 @@ namespace arithmetic_parser
 		Straight = 4
 	};
 }
-
-#endif // !PARENTHESIS_TYPE_H

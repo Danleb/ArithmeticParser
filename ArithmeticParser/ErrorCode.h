@@ -1,16 +1,15 @@
 #pragma once
-#ifndef ERROR_CODE_H
-#define ERROR_CODE_H
 
 namespace arithmetic_parser
 {
-	enum class ErrorCode
+	enum class ErrorCode : int
 	{
 		SUCCESS = 0,
 		UNDEFINED_ERROR = 1,
 		LEXICAL_ERROR = 2,
-		SYNTACTIC_ERROR = 3
+		SYNTACTIC_ERROR = 3,
+		SINGLE_CLOSING_PARENTHESIS = 4,
+		SINGLE_OPENING_PARENTHESIS = 5,
+		SINGLE_TOKEN_UNPARSED = 6,
 	};
 }
-
-#endif // !ERROR_CODES_H

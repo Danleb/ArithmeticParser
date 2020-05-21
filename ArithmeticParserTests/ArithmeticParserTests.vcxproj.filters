@@ -9,13 +9,16 @@
     <ClCompile Include="ArgumentsParsingTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="SyntacticParserTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="ArgsParsingInvalidDataTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="SyntacticParserInvalidDataTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntacticParserBasicTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntacticParserBracketsTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>

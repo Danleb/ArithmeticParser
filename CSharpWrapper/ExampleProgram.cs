@@ -5,9 +5,9 @@ namespace CSharpWrapper
 {
     public static class ExampleProgram
     {
-        public static void Main(string[] args)
+        public static void UsageExample(string[] args)
         {
-            var input = "1+1-2";
+            var input = "ln(e)^(1+1)+4(2*45/9)+sin(PI/2)";
 
             var errorDatas = ArithmeticParserAPI.Process(input, out var result);
 
@@ -21,7 +21,11 @@ namespace CSharpWrapper
 
                 foreach (var errorData in errorDatas)
                 {
-                    Console.WriteLine($"{errorData.ErrorCode}: {errorData.Description}");
+                    var errorName = Enum.GetName(typeof(ErrorCode), errorData.ErrorCode);
+
+                    //Console.WriteLine($"ErrorCode #{errorData.ErrorCode}; ErrorName={errorName}");
+
+                    Console.WriteLine($"ErrorCode #{errorData.ErrorCode}; ErrorName={errorName}; Description={errorData.Description}");
                 }
             }
         }

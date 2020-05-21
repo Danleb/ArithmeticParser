@@ -1,6 +1,4 @@
 #pragma once
-#ifndef UTILS_H
-#define UTILS_H
 
 #include <string>
 #include <map>
@@ -20,5 +18,3 @@ namespace arithmetic_parser
 	bool LoadExpression(const std::string& file_path,  std::string& input);
 	bool GetInput(const std::map<CmdOption, OptionInput>& option_inputs, std::string& input);
 }
-
-#endif // !UTILS_H

@@ -158,10 +158,12 @@
   <ItemGroup>
     <ClCompile Include="ArgumentsParsing.cpp" />
     <ClCompile Include="ArithmeticParserApi.cpp" />
+    <ClCompile Include="ErrorData.cpp" />
     <ClCompile Include="LexicalParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="SyntacticParser.cpp" />
+    <ClCompile Include="Token.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

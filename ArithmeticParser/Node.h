@@ -1,6 +1,4 @@
 #pragma once
-#ifndef NODE_H
-#define NODE_H
 
 #include <memory>
 #include <vector>
@@ -28,5 +26,3 @@ namespace arithmetic_parser
 		double Calculate() const noexcept;
 	};
 }
-
-#endif // !NODE_H

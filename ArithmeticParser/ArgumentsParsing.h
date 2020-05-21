@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ARGUMENTS_PARSING_H
-#define ARGUMENTS_PARSING_H
 
 #include <map>
 #include <vector>
@@ -39,5 +37,3 @@ namespace arithmetic_parser
 
 	void ParseArguments(const int argc, char* argv[], std::map<CmdOption, OptionInput>& option_inputs);
 }
-
-#endif // !ARGUMENTS_PARSING_H

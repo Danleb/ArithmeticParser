@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CMD_OPTION_H
-#define CMD_OPTION_H
 
 namespace arithmetic_parser
 {
@@ -15,6 +13,3 @@ namespace arithmetic_parser
 		Verbose
 	};
 }
-
-
-#endif // !CMD_OPTION_H

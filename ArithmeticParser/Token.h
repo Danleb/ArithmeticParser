@@ -1,6 +1,4 @@
 #pragma once
-#ifndef TOKEN_H
-#define TOKEN_H
 
 #include <string>
 #include <utility>
@@ -13,9 +11,8 @@
 
 namespace arithmetic_parser
 {
-	class Token
+	struct Token
 	{
-	public:
 		TokenType tokenType;
 		BuiltinFunctionType builtin_function_type;
 		double number;
@@ -30,6 +27,14 @@ namespace arithmetic_parser
 		Token() = default;
 		Token(Token const&) = default;
 		Token& operator=(Token const&) = default;
+
+		ConstantType constant_type;
+
+		Token(TokenType token_type) :
+			tokenType(token_type)
+		{
+
+		}
 
 		Token(ParenthesisType parenthesisType, ParenthesisSide parenthesisSide) :
 			parenthesis_type(parenthesisType),
@@ -57,7 +62,8 @@ namespace arithmetic_parser
 		}
 
 		Token(ConstantType constantType) :
-			tokenType(TokenType::Constant)
+			tokenType(TokenType::Constant),
+			constant_type(constantType)
 		{
 
 		}
@@ -70,7 +76,8 @@ namespace arithmetic_parser
 		{
 
 		}
+
+		bool IsOpenedRoundBracket();
+		bool IsClosingRoundBracket();
 	};
 }
-
-#endif // !TOKEN_H

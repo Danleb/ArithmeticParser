@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CONSTANT_TYPE_H
-#define CONSTANT_TYPE_H
 
 namespace arithmetic_parser
 {
@@ -10,5 +8,3 @@ namespace arithmetic_parser
 		Exponent
 	};
 }
-
-#endif // !CONSTANT_TYPE_H

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef TOKEN_TYPE_H
-#define TOKEN_TYPE_H
 
 namespace arithmetic_parser
 {
@@ -15,5 +13,3 @@ namespace arithmetic_parser
 		Constant
 	};
 }
-
-#endif // !TOKEN_TYPE_H

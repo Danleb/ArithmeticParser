@@ -1,6 +1,4 @@
 #pragma once
-#ifndef BUILTIN_FUNCTION_TYPE_H
-#define BUILTIN_FUNCTION_TYPE_H
 
 namespace arithmetic_parser
 {
@@ -32,5 +30,3 @@ namespace arithmetic_parser
 		LogarithmArbitraryBasis
 	};
 }
-
-#endif // !BUILTIN_FUNCTION_TYPE_H
