@@ -53,7 +53,7 @@ namespace ArithmeticalParserTests
 
 	TEST(SyntacticParserBracketsTests, _2_BracketsMultipliedWithoutMultSymbol_Test)
 	{
-		arithmetic_parser::SyntacticParser parser("((1+1)(1+1))");
+		arithmetic_parser::SyntacticParser parser("(1+1)(1+1)");
 		auto node = parser.ParseFunction();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 4);
@@ -64,6 +64,14 @@ namespace ArithmeticalParserTests
 		arithmetic_parser::SyntacticParser parser("((1+2*4)(1+1)*(1+1))");
 		auto node = parser.ParseFunction();
 		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 4);
+		ASSERT_DOUBLE_EQ(value, 36);
+	}
+
+	TEST(SyntacticParserBracketsTests, DividingBrackets_Test)
+	{
+		arithmetic_parser::SyntacticParser parser("((1+2*4)/1 + (1+1)/(1+1))");
+		auto node = parser.ParseFunction();
+		auto value = node->Calculate();
+		ASSERT_DOUBLE_EQ(value, 10);
 	}
 }

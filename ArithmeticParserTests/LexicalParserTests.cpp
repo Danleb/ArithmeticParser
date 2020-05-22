@@ -100,7 +100,7 @@ namespace ArithmeticalParserTests
 
 		auto token = tokens[0];
 		ASSERT_EQ(token->tokenType, arithmetic_parser::TokenType::Number);
-		ASSERT_EQ(token->number, 2);		
+		ASSERT_EQ(token->number, 2);
 
 		token = tokens[1];
 		ASSERT_EQ(token->tokenType, arithmetic_parser::TokenType::BuiltinFunction);
@@ -126,5 +126,20 @@ namespace ArithmeticalParserTests
 		ASSERT_EQ(tokens.size(), 15);
 
 
+	}
+
+	TEST(LexicalParserTests, RoundBrackets)
+	{
+		auto tokens = arithmetic_parser::GetTokens("(1+1)");
+
+		ASSERT_EQ(tokens.size(), 5);
+
+		auto token = tokens[0];
+		ASSERT_EQ(token->tokenType, arithmetic_parser::TokenType::Parentheses);
+		ASSERT_TRUE(token->IsOpenedRoundBracket());
+
+		token = tokens[4];
+		ASSERT_EQ(token->tokenType, arithmetic_parser::TokenType::Parentheses);
+		ASSERT_TRUE(token->IsClosingRoundBracket());
 	}
 }
