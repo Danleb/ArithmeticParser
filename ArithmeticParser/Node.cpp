@@ -33,7 +33,7 @@ namespace arithmetic_parser
 
 	double Node::GetSymbolValue() const
 	{
-		switch (m_token->tokenType)
+		switch (m_token->token_type)
 		{
 		case TokenType::Number: {
 			return m_token->number;
@@ -105,6 +105,7 @@ namespace arithmetic_parser
 			double base = m_child_nodes[0]->Calculate();
 			double power = m_child_nodes[1]->Calculate();
 			double value = pow(base, power);
+			return value;
 		}
 		case BuiltinFunctionType::Absolute:
 		{

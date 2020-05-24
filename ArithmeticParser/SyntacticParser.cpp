@@ -21,13 +21,13 @@ namespace arithmetic_parser
 		m_tokens = tokens;
 	}
 
-	std::shared_ptr<Node> SyntacticParser::ParseFunction()
+	std::shared_ptr<Node> SyntacticParser::ParseExpression()
 	{
-		auto node = ParseFunction(0, m_tokens.size() - 1);
+		auto node = ParseExpression(0, m_tokens.size() - 1);
 		return node;
 	}
 
-	std::shared_ptr<Node> SyntacticParser::ParseFunction(size_t start, size_t end)
+	std::shared_ptr<Node> SyntacticParser::ParseExpression(size_t start, size_t end)
 	{
 		while (OpenRoundBracketsIfNeeded(start, end));
 
@@ -41,7 +41,7 @@ namespace arithmetic_parser
 		{
 			auto current_token = m_tokens[token_index];
 
-			if (current_token->tokenType == TokenType::BuiltinFunction)
+			if (current_token->token_type == TokenType::BuiltinFunction)
 			{
 				std::shared_ptr<Node> node;
 
@@ -72,16 +72,16 @@ namespace arithmetic_parser
 
 		//check for signed operator (unary minus/plus)
 		auto start_token = m_tokens[start];
-		if (start_token->tokenType == TokenType::BuiltinFunction)
+		if (start_token->token_type == TokenType::BuiltinFunction)
 		{
 			if (start_token->builtin_function_type == BuiltinFunctionType::Addition)
 			{
-				auto nested_node = ParseFunction(start + 1, end);
+				auto nested_node = ParseExpression(start + 1, end);
 				return nested_node;
 			}
 			else if (start_token->builtin_function_type == BuiltinFunctionType::Subtraction)
 			{
-				auto nested_node = ParseFunction(start + 1, end);
+				auto nested_node = ParseExpression(start + 1, end);
 				start_token->builtin_function_type = BuiltinFunctionType::SignMinus;
 				auto node = std::make_shared<Node>(start_token);
 				node->AddChildNode(nested_node);
@@ -100,13 +100,13 @@ namespace arithmetic_parser
 	{
 		int brackets_counter = 0;
 
-		auto can_uncover_braces = m_tokens[start]->IsOpenedRoundBracket();
+		auto can_uncover_braces = m_tokens[start]->IsOpeningRoundBracket();
 
 		for (size_t i = start; i <= end; ++i)
 		{
 			auto current_token = m_tokens[i];
 
-			if (current_token->IsOpenedRoundBracket())
+			if (current_token->IsOpeningRoundBracket())
 				brackets_counter++;
 			else if (current_token->IsClosingRoundBracket())
 			{
@@ -143,6 +143,26 @@ namespace arithmetic_parser
 		return false;
 	}
 
+	void SyntacticParser::ArrageStraightParenthesesSide()
+	{
+		for (size_t i = 0; i <= m_tokens.size(); ++i)
+		{
+			auto current_token = m_tokens[i];
+
+			if (current_token->token_type == TokenType::Parentheses && current_token->parenthesis_type == ParenthesisType::Straight)
+			{
+				if (i == 0)
+				{
+					current_token->parenthesis_side = ParenthesisSide::Opening;
+				}
+				else
+				{
+					current_token->parenthesis_side = ParenthesisSide::Closing;
+				}
+			}
+		}
+	}
+
 	std::vector<size_t> SyntacticParser::EnumerateTokenIndicesOutOfBrackets(const size_t start, const size_t end)
 	{
 		int brackets_counter = 0;
@@ -155,7 +175,7 @@ namespace arithmetic_parser
 		{
 			auto current_token = m_tokens[i];
 
-			if (current_token->IsOpenedRoundBracket())
+			if (current_token->IsOpeningRoundBracket())
 				brackets_counter++;
 			else if (current_token->IsClosingRoundBracket())
 				brackets_counter--;
@@ -170,6 +190,22 @@ namespace arithmetic_parser
 				inside_braces = false;
 				indices.push_back(i);
 			}
+		}
+
+		return indices;
+	}
+
+	std::vector<size_t> SyntacticParser::EnumerateTokenIndicesOutOfModulusBrackets(const std::vector<size_t>& token_indices_outside_brackets)
+	{
+		int modulus_brackets_counter = 0;
+
+		std::vector<size_t> indices;
+
+		for (const auto token_index : token_indices_outside_brackets)
+		{
+			auto current_token = m_tokens[token_index];
+
+
 		}
 
 		return indices;
@@ -190,7 +226,7 @@ namespace arithmetic_parser
 
 		std::ostringstream str;
 		auto current_token = m_tokens[start];
-		str << "Single token unparsed at position " << start << ". TokenType = " << static_cast<int>(current_token->tokenType);
+		str << "Single token unparsed at position " << start << ". TokenType = " << static_cast<int>(current_token->token_type);
 		ErrorData error_data(ErrorCode::SINGLE_TOKEN_UNPARSED, current_token->tokenStart);
 		m_error_datas.push_back(error_data);
 		throw std::runtime_error(str.str());
@@ -202,18 +238,10 @@ namespace arithmetic_parser
 		{
 			auto current_token = m_tokens[start];
 
-			if (current_token->tokenType == TokenType::Number)
+			if (current_token->token_type == TokenType::Number)
 			{
 				auto current_node = std::make_shared<Node>(current_token);
 				return true;
-			}
-			else
-			{
-				std::ostringstream str;
-				str << "Single token unparsed at position " << start << ". TokenType = " << static_cast<int>(current_token->tokenType);
-				ErrorData error_data(ErrorCode::SINGLE_TOKEN_UNPARSED, current_token->tokenStart);
-				m_error_datas.push_back(error_data);
-				throw std::runtime_error(str.str());
 			}
 		}
 
@@ -227,7 +255,7 @@ namespace arithmetic_parser
 
 		auto current_token = m_tokens[start];
 
-		return current_token->tokenType == TokenType::Variable;
+		return current_token->token_type == TokenType::Variable;
 	}
 
 	bool SyntacticParser::IsSingleConstant(const size_t start, const size_t end)
@@ -237,24 +265,24 @@ namespace arithmetic_parser
 
 		auto current_token = m_tokens[start];
 
-		return current_token->tokenType == TokenType::Constant;
+		return current_token->token_type == TokenType::Constant;
 	}
 
 	bool SyntacticParser::IsInflectionPointPower(const size_t start, const size_t end, const size_t index, std::shared_ptr<Node>& current_node)
 	{
-		auto current_token = m_tokens[start];
+		auto current_token = m_tokens[index];
 
-		auto power_function = current_token->tokenType == TokenType::BuiltinFunction &&
+		auto power_function = current_token->token_type == TokenType::BuiltinFunction &&
 			current_token->builtin_function_type == BuiltinFunctionType::Power;
 
 		if (power_function)
 		{
 			current_node = std::make_shared<Node>(current_token);
 
-			auto left_child = ParseFunction(start, static_cast<size_t>(index - 1));
+			auto left_child = ParseExpression(start, static_cast<size_t>(index - 1));
 			current_node->AddChildNode(left_child);
 
-			auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
+			auto right_child = ParseExpression(static_cast<size_t>(index + 1), end);
 			current_node->AddChildNode(right_child);
 
 			return true;
@@ -269,7 +297,7 @@ namespace arithmetic_parser
 
 		auto multiplication = current_token->builtin_function_type == BuiltinFunctionType::Multiplication;
 		auto division = current_token->builtin_function_type == BuiltinFunctionType::Division;
-		auto inflection_function = current_token->tokenType == TokenType::BuiltinFunction && (multiplication || division);
+		auto inflection_function = current_token->token_type == TokenType::BuiltinFunction && (multiplication || division);
 
 		auto expression_first_token = index == start;
 		auto expression_last_token = index == end;
@@ -289,25 +317,25 @@ namespace arithmetic_parser
 			{
 				current_node = std::make_shared<Node>(current_token);
 
-				auto left_child = ParseFunction(start, static_cast<size_t>(index - 1));
+				auto left_child = ParseExpression(start, static_cast<size_t>(index - 1));
 				current_node->AddChildNode(left_child);
 
-				auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
+				auto right_child = ParseExpression(static_cast<size_t>(index + 1), end);
 				current_node->AddChildNode(right_child);
 
 				return true;
 			}
 
-			if (current_token->IsOpenedRoundBracket())
+			if (current_token->IsOpeningRoundBracket())
 			{
 				if (previous_token->IsValueSymbol() || previous_token->IsClosingRoundBracket())
 				{
 					current_node = std::make_shared<Node>(BuiltinFunctionType::Multiplication);
 
-					auto left_child = ParseFunction(start, static_cast<size_t>(index - 1));
+					auto left_child = ParseExpression(start, static_cast<size_t>(index - 1));
 					current_node->AddChildNode(left_child);
 
-					auto right_child = ParseFunction(index, end);
+					auto right_child = ParseExpression(index, end);
 					current_node->AddChildNode(right_child);
 
 					return true;
@@ -319,14 +347,14 @@ namespace arithmetic_parser
 		{
 			auto next_token = m_tokens[index + 1];
 
-			if (next_token->IsValueSymbol() || next_token->IsOpenedRoundBracket())
+			if (next_token->IsValueSymbol() || next_token->IsOpeningRoundBracket())
 			{
 				current_node = std::make_shared<Node>(BuiltinFunctionType::Multiplication);
 
-				auto left_child = ParseFunction(start, index);
+				auto left_child = ParseExpression(start, index);
 				current_node->AddChildNode(left_child);
 
-				auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
+				auto right_child = ParseExpression(static_cast<size_t>(index + 1), end);
 				current_node->AddChildNode(right_child);
 
 				return true;
@@ -344,21 +372,24 @@ namespace arithmetic_parser
 			current_token->builtin_function_type == BuiltinFunctionType::Addition ||
 			current_token->builtin_function_type == BuiltinFunctionType::Subtraction;
 
+		auto expression_first_token = index == start;
+
 		auto inflection_point =
 			inflection_function &&
-			index != start &&
+			!expression_first_token &&
 			(
-				m_tokens[static_cast<size_t>(index - 1)]->tokenType == TokenType::Number
+				m_tokens[static_cast<size_t>(index - 1)]->IsValueSymbol() ||
+				m_tokens[static_cast<size_t>(index - 1)]->IsClosingRoundBracket()
 				);
 
 		if (inflection_point)
 		{
 			current_node = std::make_shared<Node>(current_token);
 
-			auto left_child = ParseFunction(start, static_cast<size_t>(index - 1));
+			auto left_child = ParseExpression(start, static_cast<size_t>(index - 1));
 			current_node->AddChildNode(left_child);
 
-			auto right_child = ParseFunction(static_cast<size_t>(index + 1), end);
+			auto right_child = ParseExpression(static_cast<size_t>(index + 1), end);
 			current_node->AddChildNode(right_child);
 
 			return true;

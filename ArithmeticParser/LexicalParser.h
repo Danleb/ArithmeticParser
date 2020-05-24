@@ -7,5 +7,5 @@
 
 namespace arithmetic_parser
 {
-	std::vector<std::shared_ptr<Token>> GetTokens(std::string input);
+	std::vector<std::shared_ptr<Token>> GetTokens(const std::string_view& input);
 }

@@ -14,7 +14,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, ZeroTest)
 	{
 		arithmetic_parser::SyntacticParser parser("0");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 0);
 	}
@@ -22,7 +22,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, OnePlusOneTest)
 	{
 		arithmetic_parser::SyntacticParser parser("1+1");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 2);
 	}
@@ -30,7 +30,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, _1234_Plus_4567_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1234+4567");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, (1234 + 4567));
 	}
@@ -38,7 +38,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, _1234_Minus_4567_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1234-4567");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, (1234 - 4567));
 	}
@@ -46,7 +46,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, FractionalSumTest)
 	{
 		arithmetic_parser::SyntacticParser parser(".1+0.1");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 0.2);
 	}
@@ -54,7 +54,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, SignOperatorTest)
 	{
 		arithmetic_parser::SyntacticParser parser("+-+-.1+-+-.1");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 0.2);
 	}
@@ -62,7 +62,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, ZerosFirstTest)
 	{
 		arithmetic_parser::SyntacticParser parser("0999+000001");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 1000);
 	}
@@ -70,7 +70,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, AlternatingPlusMinusTest)
 	{
 		arithmetic_parser::SyntacticParser parser("1-2+3");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 2);
 	}
@@ -78,7 +78,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, AlternatingPlusMinusTest2)
 	{
 		arithmetic_parser::SyntacticParser parser("1+1-4+4");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 2);
 	}
@@ -86,7 +86,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, MinusPlusLongExpressionTest)
 	{
 		arithmetic_parser::SyntacticParser parser(".1+1-2+4-33+0.3-.4+0999");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 969);
 	}
@@ -94,7 +94,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, _2x3_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("2*3");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 6);
 	}
@@ -102,7 +102,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, _1x2x3x4_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1*2*3*4");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 24);
 	}
@@ -110,7 +110,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, _2_Divide_10_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("2/10");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, (2. / 10.));
 	}
@@ -118,7 +118,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, PlusMinusAndMult_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1+10*10-8*2*2");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, (1 + 10 * 10 - 8 * 2 * 2));
 	}
@@ -126,7 +126,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, PlusMinusAndDiv_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("1+10*10+4/5-8*2*2");
-		auto node = parser.ParseFunction();
+		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, (1 + 10 * 10 + 4. / 5. - 8 * 2 * 2));
 	}
@@ -134,7 +134,7 @@ namespace ArithmeticalParserTests
 	TEST(SyntacticParserTests, TwoPowerThree_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("2^3");
-		auto value = parser.ParseFunction()->Calculate();
+		auto value = parser.ParseExpression()->Calculate();
 		ASSERT_DOUBLE_EQ(value, pow(2, 3));
 	}
 }

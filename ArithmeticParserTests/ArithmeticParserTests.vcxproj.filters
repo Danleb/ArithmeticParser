@@ -3,23 +3,41 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="LexicalParserTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="ArgumentsParsingTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="ArgsParsingInvalidDataTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="SyntacticParserInvalidDataTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="SyntacticParserBasicTests.cpp">
-      <Filter>Tests</Filter>
+      <Filter>Tests\SyntacticParser</Filter>
     </ClCompile>
     <ClCompile Include="SyntacticParserBracketsTests.cpp">
-      <Filter>Tests</Filter>
+      <Filter>Tests\SyntacticParser</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntacticParserInvalidDataTests.cpp">
+      <Filter>Tests\SyntacticParser</Filter>
+    </ClCompile>
+    <ClCompile Include="AbsoluteTests.cpp">
+      <Filter>Tests\SyntacticParser</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerTests.cpp">
+      <Filter>Tests\SyntacticParser</Filter>
+    </ClCompile>
+    <ClCompile Include="LexicalParserBuiltinFunctionsTests.cpp">
+      <Filter>Tests\LexicalParser</Filter>
+    </ClCompile>
+    <ClCompile Include="LexicalParserConstantsTests.cpp">
+      <Filter>Tests\LexicalParser</Filter>
+    </ClCompile>
+    <ClCompile Include="LexicalParserTests.cpp">
+      <Filter>Tests\LexicalParser</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantTests.cpp">
+      <Filter>Tests\SyntacticParser</Filter>
+    </ClCompile>
+    <ClCompile Include="BuiltinFunctionsTests.cpp">
+      <Filter>Tests\SyntacticParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +49,12 @@
   <ItemGroup>
     <Filter Include="Tests">
       <UniqueIdentifier>{85b9fd9a-febc-49e1-a63d-8f5379b401f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\SyntacticParser">
+      <UniqueIdentifier>{08c4d020-545e-42ec-9fb7-a1e36aab327b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\LexicalParser">
+      <UniqueIdentifier>{40ef63d1-1c3e-4c83-9349-85296edfe954}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

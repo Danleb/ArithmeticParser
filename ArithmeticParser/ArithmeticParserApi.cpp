@@ -74,7 +74,7 @@ namespace arithmetic_parser
 		try
 		{
 			SyntacticParser syntactic_parser(input);
-			node = syntactic_parser.ParseFunction();
+			node = syntactic_parser.ParseExpression();
 		}
 		catch (const std::exception& e)
 		{

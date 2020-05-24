@@ -13,10 +13,10 @@ namespace arithmetic_parser
 {
 	struct Token
 	{
-		TokenType tokenType;
+		TokenType token_type;
 		BuiltinFunctionType builtin_function_type;
 		double number;
-		std::string variableName;
+		std::string variable_name;
 
 		ParenthesisType parenthesis_type;
 		ParenthesisSide parenthesis_side;
@@ -25,8 +25,8 @@ namespace arithmetic_parser
 		int tokenLength = -1;
 
 		Token() = default;
-		Token(Token const&) = default;
-		Token& operator=(Token const&) = default;
+		Token(const Token&) = default;
+		Token& operator=(const Token&) = default;
 
 		ConstantType constant_type;
 
@@ -42,7 +42,13 @@ namespace arithmetic_parser
 		bool IsConstant();
 		bool IsVariable();
 
-		bool IsOpenedRoundBracket();
+		bool IsOpeningBracket();
+		bool IsClosingBracket();
+
+		bool IsOpeningStraightBracket();
+		bool IsClosingStraightBracket();
+
+		bool IsOpeningRoundBracket();
 		bool IsClosingRoundBracket();
 	};
 }

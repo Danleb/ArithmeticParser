@@ -20,6 +20,12 @@ Trigonometric functions expect input in radians.
 
 Reserved symbol constants - PI, e.
 
+NOTICE:
+*If you run ArithmeticParser from Windows console, use double caret symbol for power operator, for example: "2^^3".
+
+*Multiplication operators with modulus brackets '|' cannot be implicit and must be specified explicitly. In other case there could be disambiguations, for example the value of the
+expression '|-3|-5|-2|' can be calculated as -7 or 17.
+
 ============================================================
 Command line options:
 
@@ -59,8 +65,18 @@ Supported built-in functions:
 	absolute value - |x|
 	sinus - sin(x)
 	cosine - cos(x)
+	arcsinus - asin(x)
+	arccosine - acos(x)
 	tangent - tg(x)
 	cotangent - ctg(x)
+	arctangent - atg(x)
+	arccotangent - actg(x)
 	natural logarithm - ln(x)
 	decimal logarithm - lg(x)
 	logarithm with the arbitrary base - log(value, base)
+
+============================================================
+Variables
+Variables names can contain and numbers. Variable name cannot start with a number.
+Reserved keywords that cannot be used as variable name are constant and builtin function names:
+	PI, e, log, sin, cos, tg, ctg, asin, acos,  ln, lg.

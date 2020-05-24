@@ -6,14 +6,14 @@
 namespace arithmetic_parser
 {
 	Token::Token(TokenType token_type) :
-		tokenType(token_type),
+		token_type(token_type),
 		builtin_function_type(BuiltinFunctionType::None)
 	{
 
 	}
 
 	Token::Token(ParenthesisType parenthesisType, ParenthesisSide parenthesisSide) :
-		tokenType(TokenType::Parentheses),
+		token_type(TokenType::Parentheses),
 		parenthesis_type(parenthesisType),
 		parenthesis_side(parenthesisSide)
 	{
@@ -21,35 +21,35 @@ namespace arithmetic_parser
 	}
 
 	Token::Token(double number) :
-		tokenType(TokenType::Number),
+		token_type(TokenType::Number),
 		builtin_function_type(BuiltinFunctionType::None),
 		number(number),
-		variableName("")
+		variable_name("")
 	{
 
 	}
 
 	Token::Token(BuiltinFunctionType builtinFunctionType) :
-		tokenType(TokenType::BuiltinFunction),
+		token_type(TokenType::BuiltinFunction),
 		builtin_function_type(builtinFunctionType),
 		number(0),
-		variableName("")
+		variable_name("")
 	{
 
 	}
 
 	Token::Token(ConstantType constantType) :
-		tokenType(TokenType::Constant),
+		token_type(TokenType::Constant),
 		constant_type(constantType)
 	{
 
 	}
 
 	Token::Token(std::string variableName) :
-		tokenType(TokenType::Variable),
+		token_type(TokenType::Variable),
 		builtin_function_type(BuiltinFunctionType::None),
 		number(0),
-		variableName(std::move(variableName))
+		variable_name(std::move(variableName))
 	{
 
 	}
@@ -64,23 +64,59 @@ namespace arithmetic_parser
 
 	bool Token::IsNumber()
 	{
-		return tokenType == TokenType::Number;
+		return token_type == TokenType::Number;
 	}
 
 	bool Token::IsConstant()
 	{
-		return tokenType == TokenType::Constant;
+		return token_type == TokenType::Constant;
 	}
 
 	bool Token::IsVariable()
 	{
-		return tokenType == TokenType::Variable;
+		return token_type == TokenType::Variable;
 	}
 
-	bool Token::IsOpenedRoundBracket()
+	bool Token::IsOpeningBracket()
+	{
+		return
+			IsOpeningRoundBracket() ||
+			IsOpeningStraightBracket();
+	}
+
+	bool Token::IsClosingBracket()
+	{
+		return
+			IsClosingRoundBracket() ||
+			IsClosingStraightBracket();
+	}
+
+	bool Token::IsOpeningStraightBracket()
 	{
 		auto open_bracket =
-			tokenType == TokenType::Parentheses &&
+			token_type == TokenType::Parentheses &&
+			parenthesis_type == ParenthesisType::Straight &&
+			parenthesis_side == ParenthesisSide::Opening
+			;
+
+		return open_bracket;
+	}
+
+	bool Token::IsClosingStraightBracket()
+	{
+		auto closing_bracket =
+			token_type == TokenType::Parentheses &&
+			parenthesis_type == ParenthesisType::Straight &&
+			parenthesis_side == ParenthesisSide::Closing
+			;
+
+		return closing_bracket;
+	}
+
+	bool Token::IsOpeningRoundBracket()
+	{
+		auto open_bracket =
+			token_type == TokenType::Parentheses &&
 			parenthesis_type == ParenthesisType::Round &&
 			parenthesis_side == ParenthesisSide::Opening
 			;
@@ -91,7 +127,7 @@ namespace arithmetic_parser
 	bool Token::IsClosingRoundBracket()
 	{
 		auto open_bracket =
-			tokenType == TokenType::Parentheses &&
+			token_type == TokenType::Parentheses &&
 			parenthesis_type == ParenthesisType::Round &&
 			parenthesis_side == ParenthesisSide::Closing
 			;
