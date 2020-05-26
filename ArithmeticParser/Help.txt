@@ -6,6 +6,7 @@ For example:
 2*6+3
 2(3+5)
 2^(1/ln(5))
+cos(PI)+ln(e)
 
 ============================================================
 Rules of expressions writing:
@@ -24,7 +25,7 @@ NOTICE:
 *If you run ArithmeticParser from Windows console, use double caret symbol for power operator, for example: "2^^3".
 
 *Multiplication operators with modulus brackets '|' cannot be implicit and must be specified explicitly. In other case there could be disambiguations, for example the value of the
-expression '|-3|-5|-2|' can be calculated as -7 or 17.
+expression '|-3|-5|-2|' can be calculated as -7 or 17 depending on the modulus braces side.
 
 ============================================================
 Command line options:
@@ -79,4 +80,4 @@ Supported built-in functions:
 Variables
 Variables names can contain and numbers. Variable name cannot start with a number.
 Reserved keywords that cannot be used as variable name are constant and builtin function names:
-	PI, e, log, sin, cos, tg, ctg, asin, acos,  ln, lg.
+	PI, e, log, sin, cos, tg, ctg, asin, acos,  ln, lg and etc.

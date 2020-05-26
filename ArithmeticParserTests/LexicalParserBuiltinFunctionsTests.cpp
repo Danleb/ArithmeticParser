@@ -13,12 +13,12 @@ namespace ArithmeticalParserTests
 	TEST(LexicalParserTests, SinusTest)
 	{
 		auto tokens = arithmetic_parser::GetTokens("sin(PI)");
-		ASSERT_EQ(tokens.size(), 0);
+		ASSERT_EQ(tokens.size(), 4);
 	}
 
 	TEST(LexicalParserTests, CosineTest)
 	{
 		auto tokens = arithmetic_parser::GetTokens("cos(PI/2)");
-		ASSERT_EQ(tokens.size(), 0);
+		ASSERT_EQ(tokens.size(), 6);
 	}
 }

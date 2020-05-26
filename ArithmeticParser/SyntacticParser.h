@@ -41,5 +41,7 @@ namespace arithmetic_parser
 		bool IsInflectionPointAdditionSubstraction(const size_t start, const size_t end, const size_t index, std::shared_ptr<Node>& current_node);
 		bool IsInflectionPointMultiplyDivision(const size_t start, const size_t end, const size_t index, std::shared_ptr<Node>& current_node);
 		bool IsInflectionPointPower(const size_t start, const size_t end, const size_t index, std::shared_ptr<Node>& current_node);
+
+		bool IsBuiltinFunction(const size_t start, const size_t end, std::shared_ptr<Node>& current_node);
 	};
 }

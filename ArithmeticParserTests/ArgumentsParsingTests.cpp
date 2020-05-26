@@ -101,4 +101,23 @@ namespace ArithmeticalParserTests
 		auto argument = expr_search->second.arguments[0];
 		ASSERT_EQ(argument, "1+1 + 1+ 1");
 	}
+
+	TEST(ArgumentsParsingTests, Expression_ShortClipboard_Test)
+	{
+		int argc = 3;
+		char* argv[] = { "unused_argument", "1+1", "-c" };
+
+		OptionsMap option_inputs;
+
+		arithmetic_parser::ParseArguments(argc, argv, option_inputs);
+
+		ASSERT_EQ(2, option_inputs.size());
+
+		auto clipboard_search = option_inputs.find(arithmetic_parser::CmdOption::Clipboard);
+		ASSERT_TRUE(clipboard_search != option_inputs.end());
+
+		auto expression_search = option_inputs.find(arithmetic_parser::CmdOption::Clipboard);
+		ASSERT_TRUE(expression_search != option_inputs.end());
+		ASSERT_TRUE(expression_search->second.arguments[0], "1+1");
+	}
 }

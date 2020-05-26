@@ -21,6 +21,7 @@ namespace arithmetic_parser
 		Cosine,
 		Tangent,
 		Cotangent,
+
 		Arcsine,
 		Arccosine,
 		Arctangent,

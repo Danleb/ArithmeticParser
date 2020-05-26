@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace ArithmeticParser
 {
@@ -25,16 +26,57 @@ namespace ArithmeticParser
         SINGLE_OPENING_PARENTHESIS = 5
     }
 
+    public class Expression : IDisposable
+    {
+        private IntPtr _expression;
+
+        public double Calculate()
+        {
+            return 0;
+        }
+
+        public double Calculate(double [] parameters)
+        {
+            return 0;
+        }
+
+        public virtual void Dispose()
+        {
+            Dispose(true);
+        }
+
+        public void Dispose(bool isDisposed)
+        {
+
+        }
+
+    }
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="arguments"></param>
     /// <returns></returns>
-    public delegate double Expression(double[] arguments);
+    //public delegate double Expression(double[] arguments);
 
     public static class ArithmeticParserAPI
     {
         private const string DllName = "ArithmeticParser.dll";
+
+
+        //public static bool ParseExpression(out ErrorData[] errorDatas, out Expression expression, out IntPtr )
+        //{
+
+        //}
+
+        /// <summary>
+        /// Calculate value of the expression with variables.
+        /// </summary>
+        /// <returns></returns>        
+        public static double Calculate(IntPtr expression, double[] variablesValues)
+        {
+            return Calculate(expression, variablesValues, variablesValues.Length);
+        }
 
 #pragma warning disable CA1401 // P/Invokes should not be visible
 
@@ -49,21 +91,28 @@ namespace ArithmeticParser
         /// <param name="result">Calculated value of the expression</param>
         /// <returns>List of errors</returns>
         [DllImport(DllName, EntryPoint = "Process", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ErrorData[] Process(string input, out double result);
+        public static extern ErrorData[] Process(string input, out double result, out IntPtr expression);
 
         /// <summary>
         /// Calculate value .
         /// </summary>
         /// <returns></returns>
         [DllImport(DllName, EntryPoint = "Calculate")]
-        public static extern double Calculate();
+        public static extern double Calculate(IntPtr expression);
 
         /// <summary>
         /// Calculate value of the expression with variables.
         /// </summary>
         /// <returns></returns>
         [DllImport(DllName, EntryPoint = "CalculateWithVariables")]
-        public static extern double Calculate(double[] variablesValues, int variablesCount);
+        private static extern double Calculate(IntPtr expression, double[] variablesValues, int variablesCount);
+
+        /// <summary>
+        /// Delete the parsed expression from memory.
+        /// </summary>
+        /// <param name="expression"></param>
+        [DllImport(DllName, EntryPoint = "DeleteExpression")]
+        public static extern void DeleteExpression(IntPtr expression);
 
 #pragma warning restore CA1401 // P/Invokes should not be visible
     }

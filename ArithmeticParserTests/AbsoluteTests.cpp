@@ -27,33 +27,17 @@ namespace ArithmeticalParserTests::SyntacticParser
 		ASSERT_DOUBLE_EQ(value, 2);
 	}
 
-	TEST(AbsoluteTests, Two_ImplicitMult_Modulus_Test)
+	TEST(AbsoluteTests, Modulus_ExplicitMult_Two_Test)
 	{
-		arithmetic_parser::SyntacticParser parser("2|-1|");
+		arithmetic_parser::SyntacticParser parser("|-1|*-2");
 		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 2);
-	}
-
-	TEST(AbsoluteTests, Abs_MinusOne_Mult_Two_Test)
-	{
-		arithmetic_parser::SyntacticParser parser("|-1|2");
-		auto node = parser.ParseExpression();
-		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 2);
+		ASSERT_DOUBLE_EQ(value, -2);
 	}
 
 	TEST(AbsoluteTests, Modulus_ExplicitMult_Modulus_Test)
 	{
 		arithmetic_parser::SyntacticParser parser("|-2|*|-3|");
-		auto node = parser.ParseExpression();
-		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 6);
-	}
-
-	TEST(AbsoluteTests, Modulus_ImplicitMult_Modulus_Test)
-	{
-		arithmetic_parser::SyntacticParser parser("|-2||-3|");
 		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 6);
@@ -67,36 +51,12 @@ namespace ArithmeticalParserTests::SyntacticParser
 		ASSERT_DOUBLE_EQ(value, 6);
 	}
 
-	TEST(AbsoluteTests, Brackets_ImplicitMult_Modulus_Test)
-	{
-		arithmetic_parser::SyntacticParser parser("(1+1)|-3|");
-		auto node = parser.ParseExpression();
-		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 6);
-	}
-
 	TEST(AbsoluteTests, Modulus_ExplicitMult_Brackets_Test)
 	{
-		arithmetic_parser::SyntacticParser parser("|-3|(1+1)");
+		arithmetic_parser::SyntacticParser parser("|-3|*(1+1)");
 		auto node = parser.ParseExpression();
 		auto value = node->Calculate();
 		ASSERT_DOUBLE_EQ(value, 6);
-	}
-
-	TEST(AbsoluteTests, Modulus_ImplicitMult_Brackets_Test)
-	{
-		arithmetic_parser::SyntacticParser parser("|-3|(1+1)");
-		auto node = parser.ParseExpression();
-		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, 6);
-	}
-
-	TEST(AbsoluteTests, ModulusSum_Test)
-	{
-		arithmetic_parser::SyntacticParser parser("|-1|-5|-2|");
-		auto node = parser.ParseExpression();
-		auto value = node->Calculate();
-		ASSERT_DOUBLE_EQ(value, -9);
 	}
 
 	TEST(AbsoluteTests, NestedModulus_Test)

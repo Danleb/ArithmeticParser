@@ -1,3 +1,4 @@
+#include <map>
 #include <memory>
 #include <vector>
 #include <sstream>
@@ -87,6 +88,12 @@ namespace arithmetic_parser
 				node->AddChildNode(nested_node);
 				return node;
 			}
+		}
+
+		std::shared_ptr<Node> node;
+		if (IsBuiltinFunction(start, end, node))
+		{
+			return node;
 		}
 
 		std::ostringstream s;
@@ -396,5 +403,82 @@ namespace arithmetic_parser
 		}
 
 		return false;
+	}
+
+	bool SyntacticParser::IsBuiltinFunction(const size_t start, const size_t end, std::shared_ptr<Node>& current_node)
+	{
+		auto start_token = m_tokens[start];
+
+		if (start_token->token_type != TokenType::BuiltinFunction)
+			return false;
+
+		auto indices = EnumerateTokenIndicesOutOfBrackets(start, end);
+
+		if (!(indices.size() == 3 && indices[0] == start && indices[1] == start + 1 && indices[2] == end))
+			return false;
+
+		auto inside_function_indices = EnumerateTokenIndicesOutOfBrackets(start + 2, end - 1);
+
+		std::vector<std::pair<size_t, size_t>> parameters_ranges;
+
+		size_t range_start = inside_function_indices[0];
+
+		for (const auto& index : inside_function_indices)
+		{
+			auto current_token = m_tokens[index];
+
+			if (current_token->IsComma())
+			{
+				parameters_ranges.push_back(std::pair(range_start, index - 1));
+				range_start = index + 1;
+			}
+		}
+
+		parameters_ranges.push_back(std::pair<size_t, size_t>(range_start, inside_function_indices.back()));
+
+		const std::map<BuiltinFunctionType, size_t> function_argument_counts{
+			{BuiltinFunctionType::Sinus, 1},
+			{BuiltinFunctionType::Cosine, 1},
+			{BuiltinFunctionType::Tangent, 1},
+			{BuiltinFunctionType::Cotangent, 1},
+
+			{BuiltinFunctionType::Arcsine, 1},
+			{BuiltinFunctionType::Arccosine, 1},
+			{BuiltinFunctionType::Arctangent, 1},
+			{BuiltinFunctionType::Arccotangent, 1},
+
+			{BuiltinFunctionType::NaturalLogarithm, 1},
+			{BuiltinFunctionType::DecimalLogarithm, 1},
+			{BuiltinFunctionType::LogarithmArbitraryBasis, 2},
+		};
+
+		auto parsed_arguments_count = parameters_ranges.size();
+
+		if (function_argument_counts.at(start_token->builtin_function_type) != parsed_arguments_count)
+		{
+			ErrorData error_data(ErrorCode::INVALID_ARGUMENTS_COUNT, start_token->tokenStart);
+			m_error_datas.push_back(error_data);
+			throw std::exception("Passed arguments count differs from expected arguments count for function .");
+		}
+
+		current_node = std::make_shared<Node>(start_token);
+
+		for (size_t i = 0; i < parsed_arguments_count; ++i)
+		{
+			const auto [range_start, range_end] = parameters_ranges[i];
+
+			if (range_start > range_end)
+			{
+				ErrorData error_data(ErrorCode::EMPTY_FUNCTION_ARGUMENT, m_tokens[range_start]->tokenStart);
+				m_error_datas.push_back(error_data);
+				throw std::exception("EMPTY_FUNCTION_ARGUMENT");
+			}
+
+			auto child_node = ParseExpression(range_start, range_end);
+
+			current_node->AddChildNode(child_node);
+		}
+
+		return true;
 	}
 }

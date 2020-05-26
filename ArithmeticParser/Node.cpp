@@ -135,7 +135,31 @@ namespace arithmetic_parser
 		case BuiltinFunctionType::Cotangent:
 		{
 			double argument_value = m_child_nodes[0]->Calculate();
-			double value = 1.0 / (argument_value);
+			double value = 1.0 / tan(argument_value);
+			return value;
+		}
+		case BuiltinFunctionType::Arcsine:
+		{
+			double argument_value = m_child_nodes[0]->Calculate();
+			double value = asin(argument_value);
+			return value;
+		}
+		case BuiltinFunctionType::Arccosine:
+		{
+			double argument_value = m_child_nodes[0]->Calculate();
+			double value = acos(argument_value);
+			return value;
+		}
+		case BuiltinFunctionType::Arctangent:
+		{
+			double argument_value = m_child_nodes[0]->Calculate();
+			double value = atan(argument_value);
+			return value;
+		}
+		case BuiltinFunctionType::Arccotangent:
+		{
+			double argument_value = m_child_nodes[0]->Calculate();
+			double value = M_PI_2 - atan(argument_value);
 			return value;
 		}
 		case BuiltinFunctionType::NaturalLogarithm:
@@ -150,7 +174,8 @@ namespace arithmetic_parser
 			double value = log10(argument_value);
 			return value;
 		}
-		case BuiltinFunctionType::LogarithmArbitraryBasis: {
+		case BuiltinFunctionType::LogarithmArbitraryBasis:
+		{
 			double argument_value = m_child_nodes[0]->Calculate();
 			double base = m_child_nodes[1]->Calculate();
 			return log(argument_value) / log(base);

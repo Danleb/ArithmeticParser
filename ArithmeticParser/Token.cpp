@@ -54,6 +54,11 @@ namespace arithmetic_parser
 
 	}
 
+	bool Token::IsComma()
+	{
+		return token_type == TokenType::Comma;
+	}
+
 	bool Token::IsValueSymbol()
 	{
 		return

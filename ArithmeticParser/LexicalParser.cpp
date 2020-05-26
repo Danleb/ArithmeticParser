@@ -13,9 +13,9 @@
 
 namespace arithmetic_parser
 {
-	bool TryParseOperator(const std::string_view& input, const size_t index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseOperator(const std::string_view& input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
-		const char c = input[index];
+		const char c = input[current_index];
 
 		switch (c)
 		{
@@ -48,12 +48,12 @@ namespace arithmetic_parser
 			return false;
 		}
 
-		shiftedIndex = index + 1;
+		shifted_index = current_index + 1;
 
 		return true;
 	}
 
-	bool TryParseParentheses(const std::string_view& input, const size_t current_index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseParentheses(const std::string_view& input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 		const char c = input[current_index];
 
@@ -90,65 +90,66 @@ namespace arithmetic_parser
 			return false;
 		}
 
-		shiftedIndex = current_index + 1;
+		shifted_index = current_index + 1;
 
 		return true;
 	}
 
-	bool TryParseSpecialSymbols(const std::string_view& input, const size_t current_index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseSpecialSymbols(const std::string_view& input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 		char c = input[current_index];
 
 		switch (c)
 		{
 		case ',':
-			//token = std::make_shared(TokenType::Comma);
+			token = std::make_shared<Token>(TokenType::Comma);
 			break;
 
 		default:
 			return false;
 		}
 
-		return false;
+		shifted_index = current_index + 1;
+
+		return true;
 	}
 
-	bool TryParseConstant(const std::string_view& input, const size_t current_index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseConstant(std::string_view input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 		const std::map<std::string, ConstantType> constants{
 			{"PI", ConstantType::PI},
 			{"e", ConstantType::Exponent}
 		};
 
-		for (size_t i = 0; i < input.length(); ++i)
+		input.remove_prefix(current_index);
+
+		for (const auto& [name, constant] : constants)
 		{
-			for (const auto& [name, constant] : constants)
+			if (input.find(name) == 0)
 			{
-				if (input.rfind(name) == 0)
-				{
-					shiftedIndex = i + name.length();
-					token = std::make_shared<Token>(constant);
-					return true;
-				}
+				shifted_index = current_index + name.length();
+				token = std::make_shared<Token>(constant);
+				return true;
 			}
 		}
 
 		return false;
 	}
 
-	bool TryParseVariable(const std::string_view& input, const size_t current_index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseVariable(const std::string_view& input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 
 
 		return false;
 	}
 
-	bool TryParseNumber(const std::string_view& input, const size_t index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseNumber(const std::string_view& input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 		std::string numberString;
 
 		bool delimiterWas = false;
 
-		for (size_t i = index; i < input.size(); i++)
+		for (size_t i = current_index; i < input.size(); i++)
 		{
 			char c = input[i];
 
@@ -181,19 +182,38 @@ namespace arithmetic_parser
 
 		double value = std::stod(numberString);
 		token = std::make_shared<Token>(Token(value));
-		shiftedIndex = index + numberString.size();
+		shifted_index = current_index + numberString.size();
 
 		return true;
 	}
 
-	bool TryParseBuiltinFunction(const std::string_view& input, const size_t index, size_t& shiftedIndex, std::shared_ptr<Token>& token)
+	bool TryParseBuiltinFunction(std::string_view input, const size_t current_index, size_t& shifted_index, std::shared_ptr<Token>& token)
 	{
 		const std::map<std::string, BuiltinFunctionType> functions{
 			{"sin", BuiltinFunctionType::Sinus},
 			{"cos", BuiltinFunctionType::Cosine},
 			{"tg", BuiltinFunctionType::Tangent},
-			{"ctg", BuiltinFunctionType::Cotangent}
+			{"ctg", BuiltinFunctionType::Cotangent},
+			{"asin", BuiltinFunctionType::Arcsine},
+			{"acos", BuiltinFunctionType::Arccosine},
+			{"atg", BuiltinFunctionType::Arctangent},
+			{"actg", BuiltinFunctionType::Arccotangent},
+			{"ln", BuiltinFunctionType::NaturalLogarithm},
+			{"lg", BuiltinFunctionType::DecimalLogarithm},
+			{"log", BuiltinFunctionType::LogarithmArbitraryBasis}
 		};
+
+		input.remove_prefix(current_index);
+
+		for (const auto& [name, function] : functions)
+		{
+			if (input.find(name) == 0)
+			{
+				shifted_index = current_index + name.length();
+				token = std::make_shared<Token>(function);
+				return true;
+			}
+		}
 
 		return false;
 	}
@@ -202,13 +222,17 @@ namespace arithmetic_parser
 	{
 		std::vector<std::shared_ptr<Token>> tokens;
 
-		//std::shared_ptr<Token> previousToken = nullptr;
-
 		for (size_t i = 0; i < input.size();)
 		{
+			if (isblank(input[i]))
+			{
+				i++;
+				continue;
+			}
+
 			std::shared_ptr<Token> token;
 
-			const auto parsedSuccessfully =
+			const auto parsed_successfully =
 				TryParseOperator(input, i, i, token) ||
 				TryParseNumber(input, i, i, token) ||
 				TryParseConstant(input, i, i, token) ||
@@ -218,13 +242,9 @@ namespace arithmetic_parser
 				TryParseSpecialSymbols(input, i, i, token)
 				;
 
-			if (parsedSuccessfully)
+			if (parsed_successfully)
 			{
 				tokens.push_back(token);
-			}
-			else if (input[i] == ' ')
-			{
-				i++;
 			}
 			else
 			{

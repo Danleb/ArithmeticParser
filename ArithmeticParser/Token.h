@@ -37,6 +37,8 @@ namespace arithmetic_parser
 		Token(ConstantType constantType);
 		Token(std::string variableName);
 
+		bool IsComma();
+
 		bool IsValueSymbol();
 		bool IsNumber();
 		bool IsConstant();
