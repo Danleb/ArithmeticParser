@@ -59,7 +59,7 @@ namespace ArithmeticParser
     /// <returns></returns>
     //public delegate double Expression(double[] arguments);
 
-    public static class ArithmeticParserAPI
+    public static class ArithmeticParser
     {
         private const string DllName = "ArithmeticParser.dll";
 

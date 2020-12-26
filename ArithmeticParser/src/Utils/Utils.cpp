@@ -39,7 +39,7 @@ namespace arithmetic_parser
 		std::cout << std::endl;
 
 		auto resource_id = IDR_HELP_TEXT;
-		auto hResource = FindResource(nullptr, MAKEINTRESOURCEW(resource_id), L"TEXT");
+		auto hResource = FindResource(nullptr, MAKEINTRESOURCE(resource_id), "TEXT");
 		auto hMemory = LoadResource(nullptr, hResource);
 
 		size_t size_bytes = SizeofResource(nullptr, hResource);

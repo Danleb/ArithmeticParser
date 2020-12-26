@@ -68,7 +68,7 @@ namespace arithmetic_parser
 			{
 				std::stringstream stream;
 				stream << "Arguments count error for option type = " << option_data.full_name
-					<< ". Expected " << option_data.arguments_count << "arguments, but found only " << i - 1;
+					<< ". Expected " << option_data.arguments_count << " arguments, but found only " << i;
 
 				throw std::runtime_error(stream.str());
 			}
